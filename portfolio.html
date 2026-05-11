@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Ale Oktavino</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
+              300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af',
+              900: '#1e3a8a', 950: '#172554'
+            },
+            slate: { 850: '#151f2e' }
+          },
+          letterSpacing: { tighter: '-0.04em', tight: '-0.02em' }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0F172A; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #3b82f6;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(-50%);
+      border-radius: 999px;
+    }
+    .nav-link.active::after { width: 100%; }
+    .nav-link.active { color: #3b82f6 !important; }
+
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+    .mobile-menu.open { max-height: 400px; opacity: 1; }
+
+    .hamburger span { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .section-hidden {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .section-visible { opacity: 1; transform: translateY(0); }
+
+    .card-glow { position: relative; overflow: hidden; }
+    .card-glow::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+    .card-glow:hover::before { opacity: 1; }
+
+    .skill-bar-fill {
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toast {
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .toast.show { transform: translateX(0); }
+
+    .timeline-line {
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #3b82f6, #dbeafe);
+    }
+  </style>
+</head>
+<body class="font-sans bg-white text-slate-900 antialiased">
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+          <iconify-icon icon="lucide:graduation-cap" class="text-white" width="18"></iconify-icon>
+        </div>
+        <span class="font-semibold text-lg tracking-tight nav-logo-text">Portfolio</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-1">
+        <a href="#hero" class="nav-link active px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="hero">Beranda</a>
+        <a href="#about" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="about">Tentang</a>
+        <a href="#skills" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="skills">Keahlian</a>
+        <a href="#activities" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="activities">Kegiatan</a>
+        <a href="#gallery" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="gallery">Galeri</a>
+        <a href="#contact" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="contact">Kontak</a>
+      </div>
+
+      <a href="#contact" class="hidden md:inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40">
+        <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
+        Hubungi Saya
+      </a>
+
+      <button id="hamburgerBtn" class="hamburger md:hidden flex flex-col gap-1.5 p-2 -mr-2" aria-label="Menu">
+        <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
+        <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
+        <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+      <div class="px-6 pb-4 pt-2 flex flex-col gap-1 border-t border-slate-200/50 mobile-menu-bg">
+        <a href="#hero" class="mobile-nav-link active px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="hero">
+          <iconify-icon icon="lucide:home" width="16" class="mr-2 align-middle"></iconify-icon>Beranda
+        </a>
+        <a href="#about" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="about">
+          <iconify-icon icon="lucide:user" width="16" class="mr-2 align-middle"></iconify-icon>Tentang
+        </a>
+        <a href="#skills" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="skills">
+          <iconify-icon icon="lucide:zap" width="16" class="mr-2 align-middle"></iconify-icon>Keahlian
+        </a>
+        <a href="#activities" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="activities">
+          <iconify-icon icon="lucide:trophy" width="16" class="mr-2 align-middle"></iconify-icon>Kegiatan
+        </a>
+        <a href="#gallery" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="gallery">
+          <iconify-icon icon="lucide:image" width="16" class="mr-2 align-middle"></iconify-icon>Galeri
+        </a>
+        <a href="#contact" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="contact">
+          <iconify-icon icon="lucide:mail" width="16" class="mr-2 align-middle"></iconify-icon>Kontak
+        </a>
+        <a href="#contact" class="mt-2 flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition-all duration-150">
+          <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
+          Hubungi Saya
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero" class="relative min-h-[700px] h-screen flex items-center justify-center overflow-hidden bg-slate-900">
+    <div class="absolute inset-0">
+      <img src="Pessoas são seres do mal.jpg" alt="Hero Background" class="w-full h-full object-cover opacity-25">
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/95"></div>
+    </div>
+    <div class="absolute top-1/4 left-10 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-600/8 rounded-full blur-3xl"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 mb-8">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+        <span class="text-sm text-slate-300 font-medium">Kelas X SRMA 24 Kediri</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl lg:text-7xl font-semibold text-white tracking-tight leading-[1.1] mb-6">
+        Halo, Saya <span class="text-brand-400">Ale oktavino</span><br>
+        <span class="text-slate-400">Siswa SMA</span>
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        Saya adalah siswa kelas X yang aktif di kegiatan sekolah, senang belajar hal baru, dan bermimpi melanjutkan bekerja sebagai petani sukses.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#about" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-150 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40">
+          Kenali Saya
+          <iconify-icon icon="lucide:arrow-down" width="18"></iconify-icon>
+        </a>
+        <a href="#activities" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-150">
+          Lihat Kegiatan
+          <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
+        </a>
+      </div>
+
+      <div class="flex items-center justify-center gap-8 sm:gap-12 mt-16 pt-8 border-t border-white/10">
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-tight">3+</div>
+          <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Prestasi</div>
+        </div>
+        <div class="w-px h-10 bg-white/15"></div>
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-tight">2</div>
+          <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Ekskul Aktif</div>
+        </div>
+        <div class="w-px h-10 bg-white/15"></div>
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-tight">88</div>
+          <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Rata-rata Nilai</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <span class="text-xs text-slate-500 uppercase tracking-widest">Scroll</span>
+      <iconify-icon icon="lucide:chevron-down" class="text-slate-500" width="20"></iconify-icon>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section id="about" class="py-24 bg-white section-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="relative">
+          <div class="relative rounded-2xl overflow-hidden border border-slate-100 shadow-xl">
+            <img src="aing.jpg" alt="Foto Saya" class="w-full h-[500px] object-cover">
+          </div>
+          <div class="absolute -bottom-6 -right-4 bg-white rounded-2xl shadow-2xl p-5 border border-slate-100">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:award" class="text-brand-600" width="24"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-2xl font-bold tracking-tight text-slate-900">X</div>
+                <div class="text-xs text-slate-500">Kelas X-4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            <iconify-icon icon="lucide:user" width="14"></iconify-icon>
+            Tentang Saya
+          </div>
+          <h2 class="text-3xl lg:text-5xl font-semibold tracking-tight mb-6">
+            Siswa <span class="text-brand-600">berprestasi</span><br>dan aktif berorganisasi
+          </h2>
+          <p class="text-slate-600 leading-relaxed mb-6">
+           Perkenalkan nama saya adalah Ale Oktavino dan saya adalah murid dari sekolah SRMA 24 Kediri,Saya masih duduk di bangku kelas X 
+          <p class="text-slate-600 leading-relaxed mb-8">
+            Saya mempunyai cita-cita menjadi seorang peternak atau petani sukses.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="flex items-center gap-3">
+              <iconify-icon icon="lucide:school" class="text-brand-500" width="18"></iconify-icon>
+              <span class="text-sm text-slate-600">SRMA 24 Kediri</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <iconify-icon icon="lucide:book-open" class="text-brand-500" width="18"></iconify-icon>
+              <span class="text-sm text-slate-600">Kelas X-4</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <iconify-icon icon="lucide:calendar" class="text-brand-500" width="18"></iconify-icon>
+              <span class="text-sm text-slate-600">Lahir: 29 Oktober 2009</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <iconify-icon icon="lucide:map-pin" class="text-brand-500" width="18"></iconify-icon>
+              <span class="text-sm text-slate-600">Puncu</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <iconify-icon icon="lucide:heart" class="text-brand-500" width="18"></iconify-icon>
+              <span class="text-sm text-slate-600">Hobi: Catur & Mancing</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <iconify-icon icon="lucide:target" class="text-brand-500" width="18"></iconify-icon>
+              <span class="text-sm text-slate-600">Cita-cita: Petani Sukses</span>
+            </div>
+          </div>
+
+          <a href="#skills" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-150 shadow-lg shadow-brand-600/25">
+            Lihat Keahlian
+            <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SKILLS ==================== -->
+  <section id="skills" class="py-24 bg-slate-50 section-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4">
+          <iconify-icon icon="lucide:zap" width="14"></iconify-icon>
+          Keahlian
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">Keahlian & Minat</h2>
+        <p class="text-slate-600 leading-relaxed">Bidang-bidang yang saya kuasai dan minati selama masa sekolah.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <!-- Card 1 -->
+        <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300 group">
+          <div class="w-12 h-12 bg-blue-50 group-hover:bg-brand-600 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300">
+            <iconify-icon icon="lucide:monitor" class="text-brand-600 group-hover:text-white transition-colors duration-300" width="24"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-lg mb-2">Komputer & IT</h4>
+          <p class="text-sm text-slate-500 mb-4">Microsoft Office, HTML/CSS dasar, Canva, editing foto</p>
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div class="skill-bar-fill bg-brand-500 h-2 rounded-full" data-width="85%"></div>
+          </div>
+          <span class="text-xs text-slate-400 mt-2 block">85%</span>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300 group">
+          <div class="w-12 h-12 bg-green-50 group-hover:bg-brand-600 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300">
+            <iconify-icon icon="lucide:flask-conical" class="text-green-600 group-hover:text-white transition-colors duration-300" width="24"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-lg mb-2"> Matematika</h4>
+          <p class="text-sm text-slate-500 mb-4">Matematika, Fisika, , analisis data sederhana</p>
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div class="skill-bar-fill bg-green-500 h-2 rounded-full" data-width="90%"></div>
+          </div>
+          <span class="text-xs text-slate-400 mt-2 block">90%</span>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300 group">
+          <div class="w-12 h-12 bg-purple-50 group-hover:bg-brand-600 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300">
+            <iconify-icon icon="lucide:pen-tool" class="text-purple-600 group-hover:text-white transition-colors duration-300" width="24"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-lg mb-2">Desain & Kreatif</h4>
+          <p class="text-sm text-slate-500 mb-4">Poster, presentasi, desain mading sekolah</p>
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div class="skill-bar-fill bg-purple-500 h-2 rounded-full" data-width="78%"></div>
+          </div>
+          <span class="text-xs text-slate-400 mt-2 block">70%</span>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300 group">
+          <div class="w-12 h-12 bg-orange-50 group-hover:bg-brand-600 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300">
+            <iconify-icon icon="lucide:users" class="text-orange-600 group-hover:text-white transition-colors duration-300" width="24"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-lg mb-2">Organisasi</h4>
+          <p class="text-sm text-slate-500 mb-4">Pramuka, kerja tim, MPK</p>
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div class="skill-bar-fill bg-orange-500 h-2 rounded-full" data-width="88%"></div>
+          </div>
+          <span class="text-xs text-slate-400 mt-2 block">88%</span>
+        </div>
+      </div>
+
+      <!-- Mapel Favorit -->
+      <div class="bg-white rounded-2xl p-8 border border-slate-100">
+        <h4 class="text-center text-sm font-semibold text-slate-400 uppercase tracking-wider mb-6">Mata Pelajaran Favorit</h4>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <div class="flex items-center gap-2 bg-slate-50 hover:bg-brand-50 rounded-xl px-4 py-2.5 transition-colors duration-150 border border-slate-100 hover:border-brand-200">
+            <iconify-icon icon="lucide:calculator" class="text-brand-500" width="18"></iconify-icon>
+            <span class="text-sm font-medium text-slate-700">Matematika</span>
+          </div>
+          <div class="flex items-center gap-2 bg-slate-50 hover:bg-brand-50 rounded-xl px-4 py-2.5 transition-colors duration-150 border border-slate-100 hover:border-brand-200">
+            <iconify-icon icon="lucide:atom" class="text-brand-500" width="18"></iconify-icon>
+            <span class="text-sm font-medium text-slate-700">Fisika</span>
+          </div>
+          <div class="flex items-center gap-2 bg-slate-50 hover:bg-brand-50 rounded-xl px-4 py-2.5 transition-colors duration-150 border border-slate-100 hover:border-brand-200">
+            <iconify-icon icon="lucide:globe" class="text-brand-500" width="18"></iconify-icon>
+            <span class="text-sm font-medium text-slate-700">Bahasa Inggris</span>
+          </div>
+          <div class="flex items-center gap-2 bg-slate-50 hover:bg-brand-50 rounded-xl px-4 py-2.5 transition-colors duration-150 border border-slate-100 hover:border-brand-200">
+            <iconify-icon icon="lucide:code-2" class="text-brand-500" width="18"></iconify-icon>
+            <span class="text-sm font-medium text-slate-700">Informatika</span>
+          </div>
+          <div class="flex items-center gap-2 bg-slate-50 hover:bg-brand-50 rounded-xl px-4 py-2.5 transition-colors duration-150 border border-slate-100 hover:border-brand-200">
+            <iconify-icon icon="lucide:flask-conical" class="text-brand-500" width="18"></iconify-icon>
+            <span class="text-sm font-medium text-slate-700">Kimia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ACTIVITIES ==================== -->
+  <section id="activities" class="py-24 bg-white section-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4">
+          <iconify-icon icon="lucide:trophy" width="14"></iconify-icon>
+          Kegiatan & Prestasi
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">Kegiatan Saya</h2>
+        <p class="text-slate-600 leading-relaxed">Riwayat kegiatan ekstrakurikuler, organisasi, dan prestasi yang pernah saya raih.</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex items-center justify-center gap-2 mb-12 flex-wrap">
+        <button class="filter-btn active bg-brand-600 text-white px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200" data-filter="all">Semua</button>
+        <button class="filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200" data-filter="prestasi">Prestasi</button>
+        <button class="filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200" data-filter="ekskul">Ekskul</button>
+        <button class="filter-btn bg-slate-100 text-slate-600 hover:bg-slate-200 px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200" data-filter="organisasi">Organisasi</button>
+      </div>
+
+      <div id="activitiesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Activity 1 -->
+        <div class="activity-card group" data-category="prestasi">
+          <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-yellow-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:trophy" class="text-yellow-500" width="20"></iconify-icon>
+              </div>
+              <span class="text-xs font-medium text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded-md">Prestasi</span>
+            </div>
+            <h4 class="font-semibold text-lg mb-2">Juara 2 Olimpiade Matematika Kota</h4>
+            <p class="text-sm text-slate-500 mb-3">Mewakili sekolah dalam Olimpiade Matematika tingkat Kabupaten Kediri tahun 2024.</p>
+            <span class="text-xs text-slate-400">November 2024</span>
+          </div>
+        </div>
+
+        <!-- Activity 2 -->
+        <div class="activity-card group" data-category="prestasi">
+          <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-yellow-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:medal" class="text-yellow-500" width="20"></iconify-icon>
+              </div>
+              <span class="text-xs font-medium text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded-md">Prestasi</span>
+            </div>
+            <h4 class="font-semibold text-lg mb-2">Juara 1 Lomba Debat Bahasa Mandarin</h4>
+            <p class="text-sm text-slate-500 mb-3">Memenangkan lomba debat antar-SMA se- Kabupaten Kediri bersama tim sekolah.</p>
+            <span class="text-xs text-slate-400">September 2024</span>
+          </div>
+        </div>
+
+        <!-- Activity 3 -->
+        <div class="activity-card group" data-category="ekskul">
+          <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:cpu" class="text-green-500" width="20"></iconify-icon>
+              </div>
+              <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-md">Ekskul</span>
+            </div>
+            <h4 class="font-semibold text-lg mb-2">Ketua Club Arsenal</h4>
+            <p class="text-sm text-slate-500 mb-3">Memimpin Arsenal agar selalu konsisten gacor agar tidak hanya di awal musim saja tapi di akhir musim juga.</p>
+            <span class="text-xs text-slate-400">2086-2088</span>
+          </div>
+        </div>
+
+        <!-- Activity 4 -->
+        <div class="activity-card group" data-category="ekskul">
+          <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:book-open" class="text-green-500" width="20"></iconify-icon>
+              </div>
+              <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-md">Ekskul</span>
+            </div>
+            <h4 class="font-semibold text-lg mb-2">Pelatih Persik Kediri</h4>
+            <p class="text-sm text-slate-500 mb-3">Melatih tim persik agar bisa juara liga 1 dan.</p>
+            <span class="text-xs text-slate-400">2088 — 2091</span>
+          </div>
+        </div>
+
+        <!-- Activity 5 -->
+        <div class="activity-card group" data-category="organisasi">
+          <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:megaphone" class="text-purple-500" width="20"></iconify-icon>
+              </div>
+              <span class="text-xs font-medium text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">Organisasi</span>
+            </div>
+            <h4 class="font-semibold text-lg mb-2">Pelatih manchester united</h4>
+            <p class="text-sm text-slate-500 mb-3">Mengelola Tim manchester united agar lebih baik.</p>
+            <span class="text-xs text-slate-400">2091 — 2095</span>
+          </div>
+        </div>
+
+        <!-- Activity 6 -->
+        <div class="activity-card group" data-category="organisasi">
+          <div class="card-glow bg-white rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:heart-handshake" class="text-purple-500" width="20"></iconify-icon>
+              </div>
+              <span class="text-xs font-medium text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">Organisasi</span>
+            </div>
+            <h4 class="font-semibold text-lg mb-2">Majelis Perwakilan Kelas (MPK)</h4>
+            <p class="text-sm text-slate-500 mb-3">Mengikuti kegiatan MPK dengan tertib dan mau bekerja sama antar organisasi.</p>
+            <span class="text-xs text-slate-400">2025 — Sekarang</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GALLERY ==================== -->
+  <section id="gallery" class="py-24 bg-slate-50 section-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4">
+          <iconify-icon icon="lucide:image" width="14"></iconify-icon>
+          Galeri
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">Galeri Foto</h2>
+        <p class="text-slate-600 leading-relaxed">Momen-momen berkesan selama kegiatan sekolah dan saat dirumah.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer row-span-2">
+          <img src="pramuka 1.jpg" alt="Lomba" class="w-full h-full min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <span class="text-white text-sm font-medium">Dianpinsat</span>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer">
+          <img src="f.4.jpg" alt="Belajar" class="w-full h-full min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <span class="text-white text-sm font-medium">Futsal </span>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer">
+          <img src="2.jpg" alt="Upacara" class="w-full h-full min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70Kelompok via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <span class="text-white text-sm font-medium">Bermain</span>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer row-span-2">
+          <img src="3.jpg" alt="Lab" class="w-full h-full min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <span class="text-white text-sm font-medium">Biliard</span>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer">
+          <img src="4.jpg" alt="Baksos" class="w-full h-full min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <span class="text-white text-sm font-medium">Biliard</span>
+          </div>
+        </div>
+        <div class="relative rounded-2xl overflow-hidden group cursor-pointer">
+          <img src="f.5.jpg" alt="Acara" class="w-full h-full min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <span class="text-white text-sm font-medium">Futsal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA ==================== -->
+  <section class="py-20 bg-brand-600 relative overflow-hidden section-hidden">
+    <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full opacity-10 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-32 h-32 bg-white rounded-full opacity-10 translate-x-1/2 translate-y-1/2"></div>
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+      <h2 class="text-3xl lg:text-4xl font-semibold tracking-tight text-white mb-4">Ingin Terhubung Dengannya?</h2>
+      <p class="text-lg text-brand-100 max-w-2xl mx-auto mb-8 leading-relaxed">Jangan ragu untuk menghubungi saya untuk diskusi, proyek sekolah, atau sekadar berteman!</p>
+      <a href="#contact" class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-brand-600 font-semibold px-8 py-3.5 rounded-xl transition-all duration-150 shadow-lg">
+        Kirim Pesan
+        <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact" class="py-24 bg-white section-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            <iconify-icon icon="lucide:mail" width="14"></iconify-icon>
+            Kontak
+          </div>
+          <h2 class="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">Hubungi Saya</h2>
+          <p class="text-slate-600 leading-relaxed mb-10">Jika ada pertanyaan atau ingin berdiskusi, silakan kirim pesan melalui form di samping.</p>
+
+          <div class="space-y-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center shrink-0">
+                <iconify-icon icon="lucide:mail" class="text-brand-600" width="20"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-sm text-slate-500">Email</div>
+                <div class="font-medium text-slate-900">aleoktavino9@gmail.com</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center shrink-0">
+                <iconify-icon icon="lucide:phone" class="text-brand-600" width="20"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-sm text-slate-500">Telepon</div>
+                <div class="font-medium text-slate-900">+62 858 5205 2961</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center shrink-0">
+                <iconify-icon icon="lucide:instagram" class="text-brand-600" width="20"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-sm text-slate-500">Instagram</div>
+                <div class="font-medium text-slate-900">@allvyxnlyy</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center shrink-0">
+                <iconify-icon icon="lucide:map-pin" class="text-brand-600" width="20"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-sm text-slate-500">Alamat Sekolah</div>
+                <div class="font-medium text-slate-900">Gang 2 Desa Bulusari, Kecamatan Tarokan, Kabupaten Kediri, Jawa Timur.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 mt-10 pt-8 border-t border-slate-100">
+            <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-brand-600 rounded-xl flex items-center justify-center text-slate-600 hover:text-white transition-all duration-200">
+              <iconify-icon icon="lucide:instagram" width="18"></iconify-icon>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-brand-600 rounded-xl flex items-center justify-center text-slate-600 hover:text-white transition-all duration-200">
+              <iconify-icon icon="lucide:twitter" width="18"></iconify-icon>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-100 hover:bg-brand-600 rounded-xl flex items-center justify-center text-slate-600 hover:text-white transition-all duration-200">
+              <iconify-icon icon="lucide:youtube" width="18"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+          <form id="contactForm" class="space-y-5">
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-2">Nama</label>
+                <input type="text" id="nameInput" placeholder="Nama Anda" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-150" required>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-2">Kelas / Sekolah</label>
+                <input type="text" id="schoolInput" placeholder="Contoh: XII IPA 3" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-150">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+              <input type="email" id="emailInput" placeholder="email@contoh.com" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-150" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Subjek</label>
+              <select id="subjectInput" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-150 text-slate-700">
+                <option value="">Pilih subjek...</option>
+                <option>Tugas Sekolah</option>
+                <option>Proyek Bersama</option>
+                <option>Diskusi</option>
+                <option>Sekadar Berteman</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-2">Pesan</label>
+              <textarea id="messageInput" rows="4" placeholder="Tulis pesan Anda di sini..." class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-150 resize-none" required></textarea>
+            </div>
+            <button type="submit" class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-3.5 rounded-xl transition-all duration-150 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40">
+              <iconify-icon icon="lucide:send" width="18"></iconify-icon>
+              Kirim Pesan
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-slate-900 pt-12 pb-6">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 pb-8 border-b border-slate-800">
+        <a href="#hero" class="flex items-center gap-2.5">
+          <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
+            <iconify-icon icon="lucide:graduation-cap" class="text-white" width="18"></iconify-icon>
+          </div>
+          <span class="font-semibold text-lg tracking-tight text-white">Portfolio Ale</span>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="#about" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Tentang</a>
+          <a href="#skills" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Keahlian</a>
+          <a href="#activities" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Kegiatan</a>
+          <a href="#gallery" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Galeri</a>
+          <a href="#contact" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Kontak</a>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-slate-500">&copy; 2025 Portfolio Ale Oktavino. Tugas Sekolah.</p>
+        <p class="text-sm text-slate-500">Dibuat dengan <iconify-icon icon="lucide:heart" class="text-red-400 align-middle" width="14"></iconify-icon> untuk tugas sekolah</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST ==================== -->
+  <div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-white border border-slate-200 shadow-2xl rounded-2xl p-4 flex items-center gap-3 max-w-sm">
+    <div id="toastIcon" class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center shrink-0">
+      <iconify-icon icon="lucide:check-circle" class="text-green-500" width="22"></iconify-icon>
+    </div>
+    <div>
+      <div id="toastTitle" class="text-sm font-semibold text-slate-900">Berhasil!</div>
+      <div id="toastMessage" class="text-xs text-slate-500">Pesan Anda telah terkirim.</div>
+    </div>
+    <button onclick="hideToast()" class="ml-2 text-slate-400 hover:text-slate-600 transition-colors">
+      <iconify-icon icon="lucide:x" width="16"></iconify-icon>
+    </button>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // =============================
+    // NAVIGATION
+    // =============================
+    const navbar = document.getElementById('navbar');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    function updateNavbar() {
+      const scrollY = window.scrollY;
+
+      if (scrollY > 50) {
+        navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-slate-200/50');
+        navbar.classList.remove('bg-transparent');
+        document.querySelectorAll('.nav-text-color').forEach(el => {
+          el.classList.remove('text-white/80');
+          el.classList.add('text-slate-600');
+        });
+        const logoText = document.querySelector('.nav-logo-text');
+        if (logoText) { logoText.classList.remove('text-white'); logoText.classList.add('text-slate-900'); }
+        document.querySelectorAll('.hamburger-line-color').forEach(el => {
+          el.classList.remove('bg-white'); el.classList.add('bg-slate-900');
+        });
+        const menuBg = document.querySelector('.mobile-menu-bg');
+        if (menuBg) { menuBg.classList.add('bg-white'); menuBg.classList.remove('bg-slate-900/95'); }
+        mobileNavLinks.forEach(el => {
+          el.classList.remove('text-white/80', 'hover:bg-white/10');
+          el.classList.add('text-slate-600', 'hover:bg-slate-100');
+        });
+      } else {
+        navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-slate-200/50');
+        navbar.classList.add('bg-transparent');
+        document.querySelectorAll('.nav-text-color').forEach(el => {
+          el.classList.add('text-white/80'); el.classList.remove('text-slate-600');
+        });
+        const logoText = document.querySelector('.nav-logo-text');
+        if (logoText) { logoText.classList.add('text-white'); logoText.classList.remove('text-slate-900'); }
+        document.querySelectorAll('.hamburger-line-color').forEach(el => {
+          el.classList.add('bg-white'); el.classList.remove('bg-slate-900');
+        });
+        const menuBg = document.querySelector('.mobile-menu-bg');
+        if (menuBg) { menuBg.classList.remove('bg-white'); menuBg.classList.add('bg-slate-900/95'); }
+        mobileNavLinks.forEach(el => {
+          el.classList.add('text-white/80', 'hover:bg-white/10');
+          el.classList.remove('text-slate-600', 'hover:bg-slate-100');
+        });
+      }
+    }
+
+    function updateActiveNav() {
+      const scrollY = window.scrollY + 120;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === sectionId) link.classList.add('active');
+          });
+          mobileNavLinks.forEach(link => {
+            link.classList.remove('active', 'bg-brand-50', 'text-brand-600');
+            if (link.getAttribute('data-section') === sectionId) link.classList.add('active', 'bg-brand-50', 'text-brand-600');
+          });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', () => { updateNavbar(); updateActiveNav(); });
+    updateNavbar();
+    updateActiveNav();
+
+    // =============================
+    // MOBILE MENU
+    // =============================
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      hamburgerBtn.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+    });
+
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerBtn.classList.remove('active');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // =============================
+    // ACTIVITY FILTER
+    // =============================
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const activityCards = document.querySelectorAll('.activity-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-brand-600', 'text-white', 'active');
+          b.classList.add('bg-slate-100', 'text-slate-600');
+        });
+        btn.classList.add('bg-brand-600', 'text-white', 'active');
+        btn.classList.remove('bg-slate-100', 'text-slate-600');
+
+        const filter = btn.getAttribute('data-filter');
+        activityCards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            card.style.display = '';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            requestAnimationFrame(() => {
+              card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => { card.style.display = 'none'; }, 400);
+          }
+        });
+      });
+    });
+
+    // =============================
+    // SCROLL REVEAL
+    // =============================
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-visible');
+          entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.getAttribute('data-width'); }, 300);
+          });
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.section-hidden').forEach(section => observer.observe(section));
+
+    // =============================
+    // CONTACT FORM
+    // =============================
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('nameInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim();
+      const message = document.getElementById('messageInput').value.trim();
+
+      if (!name || !email || !message) {
+        showToast('Gagal!', 'Mohon lengkapi semua field yang wajib diisi.', 'error');
+        return;
+      }
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalHTML = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<iconify-icon icon="lucide:loader-2" width="18" class="animate-spin"></iconify-icon> Mengirim...';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        e.target.reset();
+        showToast('Berhasil!', 'Pesan Anda telah terkirim. Terima kasih!', 'success');
+      }, 1500);
+    });
+
+    // =============================
+    // TOAST
+    // =============================
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMessage').textContent = message;
+      const icon = document.getElementById('toastIcon');
+      if (type === 'error') {
+        icon.innerHTML = '<iconify-icon icon="lucide:alert-circle" class="text-red-500" width="22"></iconify-icon>';
+        icon.className = 'w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center shrink-0';
+      } else {
+        icon.innerHTML = '<iconify-icon icon="lucide:check-circle" class="text-green-500" width="22"></iconify-icon>';
+        icon.className = 'w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center shrink-0';
+      }
+      toast.classList.add('show');
+      setTimeout(() => hideToast(), 4000);
+    }
+
+    function hideToast() { document.getElementById('toast').classList.remove('show'); }
+  </script>
+</body>
+</html>
