@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Ale Oktavino | INFINITY EDITION</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ==================== CYBER GRID BACKGROUND ==================== */
+    .cyber-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 0;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .cyber-grid::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.8) 100%);
+    }
+
+    /* ==================== FLOATING GEOMETRIC SHAPES ==================== */
+    .geo-shape {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+      filter: blur(1px);
+    }
+
+    .geo-shape.triangle {
+      width: 0;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-bottom: 52px solid #0ff;
+      animation: float-geo 20s ease-in-out infinite, spin-slow 30s linear infinite;
+    }
+
+    .geo-shape.circle {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #f0f;
+      border-radius: 50%;
+      animation: float-geo 25s ease-in-out infinite reverse, pulse-geo 4s ease-in-out infinite;
+    }
+
+    .geo-shape.square {
+      width: 35px;
+      height: 35px;
+      border: 2px solid #ff0;
+      animation: float-geo 22s ease-in-out infinite, rotate-geo 20s linear infinite;
+    }
+
+    @keyframes float-geo {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(100px, -150px) rotate(90deg); }
+      50% { transform: translate(-80px, -200px) rotate(180deg); }
+      75% { transform: translate(120px, -100px) rotate(270deg); }
+    }
+
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    @keyframes pulse-geo { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.5); opacity: 0.7; } }
+    @keyframes rotate-geo { to { transform: rotate(360deg); } }
+
+    /* ==================== CURSOR COMET SYSTEM ==================== */
+    .cursor-comet {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      z-index: 99999;
+      transition: transform 0.1s ease;
+    }
+
+    .cursor-comet::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, #fff 0%, #0ff 30%, #f0f 60%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse-cursor 1s ease-in-out infinite;
+    }
+
+    .cursor-comet::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, #0ff, #f0f, #ff0, transparent);
+      transform: translate(-50%, -50%) rotate(var(--angle, 0deg));
+      opacity: 0.6;
+      filter: blur(1px);
+    }
+
+    @keyframes pulse-cursor {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    .comet-trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+      z-index: 99998;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* ==================== MATRIX RAIN EFFECT ==================== */
+    .matrix-container {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .matrix-column {
+      position: absolute;
+      top: -100%;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #0f0;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      animation: matrix-fall linear infinite;
+      text-shadow: 0 0 5px #0f0;
+    }
+
+    @keyframes matrix-fall {
+      to { transform: translateY(calc(100vh + 100%)); }
+    }
+
+    /* ==================== AURORA BOREALIS EFFECT ==================== */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .aurora-layer {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: 
+        radial-gradient(ellipse at 20% 50%, rgba(0,255,255,0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,0,255,0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(255,255,0,0.2) 0%, transparent 50%);
+      animation: aurora-move 30s ease-in-out infinite alternate;
+      filter: blur(60px);
+    }
+
+    @keyframes aurora-move {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      33% { transform: translate(5%, -10%) rotate(120deg) scale(1.1); }
+      66% { transform: translate(-5%, 5%) rotate(240deg) scale(0.9); }
+      100% { transform: translate(3%, -3%) rotate(360deg) scale(1.05); }
+    }
+
+    /* ==================== LOADING SCREEN QUANTUM ==================== */
+    .loader-quantum {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 99997;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.5s;
+    }
+
+    .loader-quantum.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .quantum-ring {
+      width: 150px;
+      height: 150px;
+      position: relative;
+    }
+
+    .quantum-ring::before,
+    .quantum-ring::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      animation: quantum-spin 2s linear infinite;
+    }
+
+    .quantum-ring::before {
+      border-top-color: #0ff;
+      border-right-color: #f0f;
+      animation-direction: normal;
+    }
+
+    .quantum-ring::after {
+      border-bottom-color: #ff0;
+      border-left-color: #0f0;
+      animation-direction: reverse;
+      animation-duration: 1.5s;
+    }
+
+    .quantum-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: conic-gradient(from 0deg, #0ff, #f0f, #ff0, #0f0, #0ff);
+      border-radius: 50%;
+      animation: quantum-pulse 1s ease-in-out infinite, quantum-rotate 4s linear infinite;
+      box-shadow: 
+        0 0 30px rgba(0,255,255,0.5),
+        0 0 60px rgba(255,0,255,0.3),
+        inset 0 0 30px rgba(255,255,0,0.3);
+    }
+
+    @keyframes quantum-spin { to { transform: rotate(360deg); } }
+    @keyframes quantum-pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+    @keyframes quantum-rotate { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .loading-text-quantum {
+      margin-top: 3rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 8px;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: text-glitch 2s infinite;
+    }
+
+    @keyframes text-glitch {
+      0%, 90%, 100% { opacity: 1; transform: translateX(0); }
+      92% { opacity: 0.8; transform: translateX(-5px); color: #f0f; }
+      94% { opacity: 0.9; transform: translateX(5px); color: #ff0; }
+      96% { opacity: 0.85; transform: translateX(-3px); }
+      98% { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ==================== SCROLL PROGRESS NEON ==================== */
+    .scroll-progress-neon {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0ff, #f0f, #ff0, #0f0, #0ff);
+      background-size: 200% 100%;
+      z-index: 99996;
+      transition: width 0.1s linear;
+      box-shadow: 
+        0 0 10px currentColor,
+        0 0 20px currentColor,
+        0 0 40px currentColor;
+      animation: progress-flow 3s linear infinite;
+    }
+
+    @keyframes progress-flow {
+      to { background-position: 200% 0; }
+    }
+
+    /* ==================== NAVIGATION CYBERPUNK ==================== */
+    .nav-cyber {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 2rem;
+      backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(0,0,0,0.7);
+      border-bottom: 1px solid rgba(0,255,255,0.1);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-cyber.scrolled {
+      background: rgba(0,0,0,0.95);
+      box-shadow: 0 10px 40px rgba(0,255,255,0.1), inset 0 1px 0 rgba(0,255,255,0.1);
+    }
+
+    .nav-link-cyber {
+      position: relative;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .nav-link-cyber::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #0ff, #f0f);
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
+    }
+
+    .nav-link-cyber:hover,
+    .nav-link-cyber.active {
+      color: #fff;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
+    }
+
+    .nav-link-cyber:hover::before,
+    .nav-link-cyber.active::before {
+      width: 120%;
+    }
+
+    /* ==================== HERO SECTION COSMIC ==================== */
+    .hero-cosmic {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at center, rgba(0,0,50,0.3) 0%, #000 70%);
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .hero-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite;
+      box-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .hero-title-main {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(3rem, 10vw, 9rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .text-hologram {
+      background: linear-gradient(
+        135deg,
+        #0ff 0%,
+        #f0f 25%,
+        #ff0 50%,
+        #0f0 75%,
+        #0ff 100%
+      );
+      background-size: 400% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: hologram-shift 4s ease infinite;
+      filter: drop-shadow(0 0 30px rgba(0,255,255,0.5)) drop-shadow(0 0 60px rgba(255,0,255,0.3));
+      position: relative;
+    }
+
+    .text-hologram::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glitch-text 3s infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes hologram-shift {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 200% center; }
+    }
+
+    @keyframes glitch-text {
+      0%, 90%, 100% { transform: translate(0); }
+      92% { transform: translate(-3px, 2px); filter: hue-rotate(90deg); }
+      94% { transform: translate(3px, -2px); filter: hue-rotate(-90deg); }
+      96% { transform: translate(-2px, 1px); }
+    }
+
+    .subtitle-cyber {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    .btn-cyber {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      position: relative;
+      background: transparent;
+      border: 2px solid #0ff;
+      color: #0ff;
+      text-decoration: none;
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .btn-cyber::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0ff, #f0f);
+      opacity: 0;
+      transition: opacity 0.4s;
+      z-index: -1;
+    }
+
+    .btn-cyber:hover {
+      color: #000;
+      border-color: transparent;
+      box-shadow: 
+        0 0 20px rgba(0,255,255,0.5),
+        0 0 40px rgba(255,0,255,0.3),
+        inset 0 0 20px rgba(255,255,255,0.2);
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .btn-cyber:hover::before {
+      opacity: 1;
+    }
+
+    .btn-cyber-filled {
+      background: linear-gradient(135deg, #0ff, #f0f);
+      border-color: transparent;
+      color: #000;
+      font-weight: 700;
+    }
+
+    .btn-cyber-filled:hover {
+      box-shadow: 
+        0 0 30px rgba(0,255,255,0.6),
+        0 0 60px rgba(255,0,255,0.4),
+        0 0 90px rgba(255,0,255,0.2);
+    }
+
+    /* ==================== SECTION STYLING ==================== */
+    .section-cosmic {
+      padding: 8rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      max-width: 600px;
+      margin: 0 auto 4rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    /* ==================== CARD HOLOGRAPHIC ==================== */
+    .card-holo {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,255,255,0.1);
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .card-holo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg at 50% 50%, 
+        transparent 0deg,
+        rgba(0,255,255,0.03) 60deg,
+        transparent 120deg,
+        rgba(255,0,255,0.03) 180deg,
+        transparent 240deg,
+        rgba(255,255,0,0.03) 300deg,
+        transparent 360deg
+      );
+      animation: holo-spin 10s linear infinite;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .card-holo:hover::before {
+      opacity: 1;
+    }
+
+    .card-holo:hover {
+      transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+      border-color: rgba(0,255,255,0.3);
+      box-shadow: 
+        0 20px 60px rgba(0,0,0,0.3),
+        0 0 40px rgba(0,255,255,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    @keyframes holo-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .card-holo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0,255,255,0.2), transparent 50%, rgba(255,0,255,0.2));
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      pointer-events: none;
+    }
+
+    /* ==================== SKILL BAR NEON ==================== */
+    .skill-bar-neon {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .skill-fill-neon {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #0ff, #f0f, #ff0);
+      background-size: 200% 100%;
+      position: relative;
+      width: 0;
+      transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: skill-flow 3s linear infinite;
+      box-shadow: 
+        0 0 10px currentColor,
+        0 0 20px currentColor,
+        inset 0 2px 4px rgba(255,255,255,0.3);
+    }
+
+    .skill-fill-neon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer-skills 2s infinite;
+    }
+
+    @keyframes skill-flow {
+      to { background-position: 200% 0; }
+    }
+
+    @keyframes shimmer-skills {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
+    }
+
+    /* ==================== IMAGE CONTAINER ==================== */
+    .img-container-cyber {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(0,255,255,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .img-container-cyber img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .img-container-cyber:hover img {
+      transform: scale(1.1) rotate(1deg);
+      filter: brightness(1.2) contrast(1.1);
+    }
+
+    .img-container-cyber::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(255,0,255,0.1));
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .img-container-cyber:hover::after {
+      opacity: 1;
+    }
+
+    /* ==================== FORM INPUTS ==================== */
+    .input-cyber {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,255,255,0.2);
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+    }
+
+    .input-cyber:focus {
+      border-color: #0ff;
+      box-shadow: 
+        0 0 20px rgba(0,255,255,0.2),
+        0 0 40px rgba(0,255,255,0.1),
+        inset 0 0 20px rgba(0,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .input-cyber::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ==================== TOAST NOTIFICATION ==================== */
+    .toast-cyber {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,255,255,0.3);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      z-index: 9999;
+      transform: translateX(calc(100% + 3rem)) rotateY(-20deg);
+      transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 
+        0 20px 60px rgba(0,0,0,0.5),
+        0 0 40px rgba(0,255,255,0.1);
+      max-width: 400px;
+    }
+
+    .toast-cyber.show {
+      transform: translateX(0) rotateY(0);
+    }
+
+    /* ==================== FOOTER ==================== */
+    .footer-cyber {
+      background: rgba(0,0,0,0.95);
+      border-top: 1px solid rgba(0,255,255,0.1);
+      padding: 3rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ==================== ANIMATIONS ==================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==================== MOBILE MENU ==================== */
+    .mobile-menu-cyber {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      height: 100vh;
+      background: rgba(0,0,0,0.98);
+      backdrop-filter: blur(30px);
+      z-index: 9999;
+      padding: 6rem 2rem 2rem;
+      transition: right 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      border-left: 1px solid rgba(0,255,255,0.2);
+    }
+
+    .mobile-menu-cyber.open {
+      right: 0;
+    }
+
+    .hamburger-cyber {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      z-index: 10000;
+      padding: 1rem;
+    }
+
+    .hamburger-cyber span {
+      width: 30px;
+      height: 2px;
+      background: #fff;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .hamburger-cyber.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger-cyber.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-cyber.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    @media (max-width: 1024px) {
+      .hamburger-cyber {
+        display: flex;
+      }
+      
+      .nav-links-desktop {
+        display: none !important;
+      }
+    }
+
+    /* ==================== GALLERY GRID ==================== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,255,255,0.1);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.15) rotate(2deg);
+      filter: brightness(1.3) saturate(1.2);
+    }
+
+    .gallery-item::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      color: #fff;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s;
+    }
+
+    .gallery-item:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== CYBER GRID BACKGROUND ==================== -->
+  <div class="cyber-grid"></div>
+
+  <!-- ==================== AURORA BOREALIS ==================== -->
+  <div class="aurora">
+    <div class="aurora-layer"></div>
+  </div>
+
+  <!-- ==================== MATRIX RAIN ==================== -->
+  <div class="matrix-container" id="matrixContainer"></div>
+
+  <!-- ==================== FLOATING GEOMETRIC SHAPES ==================== -->
+  <div class="geo-shape triangle" style="top: 20%; left: 10%;"></div>
+  <div class="geo-shape circle" style="top: 60%; left: 85%;"></div>
+  <div class="geo-shape square" style="top: 80%; left: 20%;"></div>
+  <div class="geo-shape circle" style="top: 30%; left: 70%; animation-delay: -2s;"></div>
+  <div class="geo-shape triangle" style="top: 70%; left: 50%; animation-delay: -5s;"></div>
+
+  <!-- ==================== CURSOR COMET SYSTEM ==================== -->
+  <div class="cursor-comet" id="cursorComet"></div>
+  <div id="cometTrails"></div>
+
+  <!-- ==================== SCROLL PROGRESS ==================== -->
+  <div class="scroll-progress-neon" id="scrollProgress"></div>
+
+  <!-- ==================== LOADING SCREEN QUANTUM ==================== -->
+  <div class="loader-quantum" id="loaderQuantum">
+    <div class="quantum-ring">
+      <div class="quantum-core"></div>
+    </div>
+    <div class="loading-text-quantum">INITIALIZING SYSTEM</div>
+  </div>
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav class="nav-cyber" id="navCyber">
+    <a href="#hero" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: #fff;">
+      <div style="
+        width: 45px; 
+        height: 45px; 
+        background: linear-gradient(135deg, #0ff, #f0f); 
+        border-radius: 12px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-weight: 900;
+        font-size: 1.3rem;
+        color: #000;
+        box-shadow: 0 0 20px rgba(0,255,255,0.5);
+        transition: all 0.4s;
+      " onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'">A</div>
+      <span style="font-family: 'Orbitron'; font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;">PORTFOLIO</span>
+    </a>
+
+    <div class="nav-links-desktop" style="display: flex; align-items: center; gap: 0.5rem;">
+      <a href="#hero" class="nav-link-cyber active" data-section="hero">Home</a>
+      <a href="#about" class="nav-link-cyber" data-section="about">About</a>
+      <a href="#skills" class="nav-link-cyber" data-section="skills">Skills</a>
+      <a href="#activities" class="nav-link-cyber" data-section="activities">Activities</a>
+      <a href="#gallery" class="nav-link-cyber" data-section="gallery">Gallery</a>
+      <a href="#contact" class="nav-link-cyber" data-section="contact">Contact</a>
+      <a href="#contact" class="btn-cyber btn-cyber-filled" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-left: 1rem;">
+        <iconify-icon icon="lucide:send" width="16"></iconify-icon> Contact Me
+      </a>
+    </div>
+
+    <button class="hamburger-cyber" id="hamburgerCyber" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ==================== MOBILE MENU ==================== -->
+  <div class="mobile-menu-cyber" id="mobileMenuCyber">
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <a href="#hero" class="nav-link-cyber active" data-section="hero" onclick="closeMobileMenu()">Home</a>
+      <a href="#about" class="nav-link-cyber" data-section="about" onclick="closeMobileMenu()">About</a>
+      <a href="#skills" class="nav-link-cyber" data-section="skills" onclick="closeMobileMenu()">Skills</a>
+      <a href="#activities" class="nav-link-cyber" data-section="activities" onclick="closeMobileMenu()">Activities</a>
+      <a href="#gallery" class="nav-link-cyber" data-section="gallery" onclick="closeMobileMenu()">Gallery</a>
+      <a href="#contact" class="nav-link-cyber" data-section="contact" onclick="closeMobileMenu()">Contact</a>
+      <a href="#contact" class="btn-cyber btn-cyber-filled" style="text-align: center;">Send Message</a>
+    </div>
+  </div>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero-cosmic" id="hero">
+    <div class="hero-particles" id="heroParticles"></div>
+    
+    <div style="position: relative; z-index: 10; text-align: center; padding: 2rem;">
+      <div style="
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: rgba(0,255,255,0.05);
+        border: 1px solid rgba(0,255,255,0.2);
+        border-radius: 99px;
+        margin-bottom: 2rem;
+        font-family: 'Orbitron';
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        color: #0ff;
+        text-shadow: 0 0 10px #0ff;
+      ">
+        <span style="display: inline-block; width: 8px; height: 8px; background: #0f0; border-radius: 50%; margin-right: 0.75rem; animation: pulse-cursor 1.5s infinite;"></span>
+        SRMA 24 KEDIRI // CLASS X
+      </div>
+
+      <h1 class="hero-title-main">
+        <span class="text-hologram" data-text="ALE OKTAVINO">ALE OKTAVINO</span>
+      </h1>
+
+      <p class="subtitle-cyber">
+        Creative Student • Future Farmer • Dreamer
+      </p>
+
+      <div class="cta-group">
+        <a href="#about" class="btn-cyber btn-cyber-filled">
+          <iconify-icon icon="lucide:user" width="18"></iconify-icon> Explore Profile
+        </a>
+        <a href="#activities" class="btn-cyber">
+          <iconify-icon icon="lucide:sparkles" width="18"></iconify-icon> View Works
+        </a>
+      </div>
+
+      <div style="
+        display: flex;
+        justify-content: center;
+        gap: 4rem;
+        margin-top: 5rem;
+        padding-top: 3rem;
+        border-top: 1px solid rgba(0,255,255,0.1);
+        flex-wrap: wrap;
+      ">
+        <div style="text-align: center;">
+          <div style="font-family: 'Orbitron'; font-size: 2.5rem; font-weight: 900; color: #0ff; text-shadow: 0 0 20px #0ff;">3+</div>
+          <div style="font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-top: 0.5rem;">ACHIEVEMENTS</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-family: 'Orbitron'; font-size: 2.5rem; font-weight: 900; color: #f0f; text-shadow: 0 0 20px #f0f;">2</div>
+          <div style="font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-top: 0.5rem;">EXTRACURRICULAR</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-family: 'Orbitron'; font-size: 2.5rem; font-weight: 900; color: #ff0; text-shadow: 0 0 20px #ff0;">88</div>
+          <div style="font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-top: 0.5rem;">AVG SCORE</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      animation: float-geo 3s ease-in-out infinite;
+    ">
+      <span style="font-family: 'Orbitron'; font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 3px;">SCROLL</span>
+      <iconify-icon icon="lucide-chevron-down" width="20" style="color: #0ff; animation: float-geo 2s ease-in-out infinite reverse;"></iconify-icon>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT SECTION ==================== -->
+  <section class="section-cosmic" id="about">
+    <h2 class="section-title fade-up">
+      <span class="text-hologram" data-text="ABOUT ME">ABOUT ME</span>
+    </h2>
+    <p class="section-subtitle fade-up">Get to know the person behind this digital presence</p>
+
+    <div style="
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    ">
+      <div class="fade-up img-container-cyber">
+        <img src="aing.jpg" alt="Ale Oktavino" style="border-radius: 24px;">
+      </div>
+
+      <div class="fade-up" style="color: rgba(255,255,255,0.8);">
+        <h3 style="
+          font-family: 'Orbitron';
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+          color: #0ff;
+          text-shadow: 0 0 10px rgba(0,255,255,0.5);
+        ">WHO AM I?</h3>
+        
+        <p style="margin-bottom: 1.5rem; line-height: 1.8;">
+          Perkenalkan nama saya adalah Ale Oktavino dan saya adalah murid dari sekolah SRMA 24 Kediri. Saya masih duduk di bangku kelas X.
+        </p>
+        
+        <p style="margin-bottom: 2rem; line-height: 1.8;">
+          Saya mempunyai cita-cita menjadi seorang peternak atau petani sukses.
+        </p>
+
+        <div style="
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-bottom: 2rem;
+        ">
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0,255,255,0.03);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 12px;
+          ">
+            <iconify-icon icon="lucide:school" width="20" style="color: #0ff;"></iconify-icon>
+            <span style="font-size: 0.9rem;">SRMA 24 Kediri</span>
+          </div>
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255,0,255,0.03);
+            border: 1px solid rgba(255,0,255,0.1);
+            border-radius: 12px;
+          ">
+            <iconify-icon icon="lucide:book-open" width="20" style="color: #f0f;"></iconify-icon>
+            <span style="font-size: 0.9rem;">Class X-4</span>
+          </div>
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255,255,0,0.03);
+            border: 1px solid rgba(255,255,0,0.1);
+            border-radius: 12px;
+          ">
+            <iconify-icon icon="lucide:calendar" width="20" style="color: #ff0;"></iconify-icon>
+            <span style="font-size: 0.9rem;">Oct 29, 2009</span>
+          </div>
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0,255,0,0.03);
+            border: 1px solid rgba(0,255,0,0.1);
+            border-radius: 12px;
+          ">
+            <iconify-icon icon="lucide:map-pin" width="20" style="color: #0f0;"></iconify-icon>
+            <span style="font-size: 0.9rem;">Puncu</span>
+          </div>
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0,255,255,0.03);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 12px;
+          ">
+            <iconify-icon icon="lucide:heart" width="20" style="color: #f0f;"></iconify-icon>
+            <span style="font-size: 0.9rem;">Chess & Fishing</span>
+          </div>
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255,0,255,0.03);
+            border: 1px solid rgba(255,0,255,0.1);
+            border-radius: 12px;
+          ">
+            <iconify-icon icon="lucide:target" width="20" style="color: #ff0;"></iconify-icon>
+            <span style="font-size: 0.9rem;">Farmer</span>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-cyber btn-cyber-filled" style="display: inline-flex; align-items: center; gap: 0.75rem; width: fit-content;">
+          <iconify-icon icon="lucide:mail" width="18"></iconify-icon> Get In Touch
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SKILLS SECTION ==================== -->
+  <section class="section-cosmic" id="skills" style="background: rgba(0,255,255,0.01);">
+    <h2 class="section-title fade-up">
+      <span class="text-hologram" data-text="SKILLS">SKILLS</span>
+    </h2>
+    <p class="section-subtitle fade-up">Technologies and areas I'm passionate about</p>
+
+    <div style="
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    ">
+      <div class="card-holo fade-up">
+        <div style="
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,255,255,0.05));
+          border: 1px solid rgba(0,255,255,0.3);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        ">
+          <iconify-icon icon="lucide:monitor" width="28" style="color: #0ff;"></iconify-icon>
+        </div>
+        <h3 style="font-family: 'Orbitron'; font-size: 1.2rem; margin-bottom: 0.75rem; color: #0ff;">Computer & IT</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+          Microsoft Office, HTML/CSS basic, Canva, photo editing
+        </p>
+        <div class="skill-bar-neon">
+          <div class="skill-fill-neon" data-width="85"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+          <span>Proficiency</span>
+          <span style="color: #0ff;">85%</span>
+        </div>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.1s;">
+        <div style="
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(255,0,255,0.05));
+          border: 1px solid rgba(255,0,255,0.3);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        ">
+          <iconify-icon icon="lucide:calculator" width="28" style="color: #f0f;"></iconify-icon>
+        </div>
+        <h3 style="font-family: 'Orbitron'; font-size: 1.2rem; margin-bottom: 0.75rem; color: #f0f;">Mathematics</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+          Math, Physics, simple data analysis
+        </p>
+        <div class="skill-bar-neon">
+          <div class="skill-fill-neon" data-width="90" style="background: linear-gradient(90deg, #f0f, #ff0);"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+          <span>Proficiency</span>
+          <span style="color: #f0f;">90%</span>
+        </div>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.2s;">
+        <div style="
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, rgba(255,255,0,0.2), rgba(255,255,0,0.05));
+          border: 1px solid rgba(255,255,0,0.3);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        ">
+          <iconify-icon icon="lucide:palette" width="28" style="color: #ff0;"></iconify-icon>
+        </div>
+        <h3 style="font-family: 'Orbitron'; font-size: 1.2rem; margin-bottom: 0.75rem; color: #ff0;">Design & Creative</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+          Posters, presentations, school poster design
+        </p>
+        <div class="skill-bar-neon">
+          <div class="skill-fill-neon" data-width="78" style="background: linear-gradient(90deg, #ff0, #0f0);"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+          <span>Proficiency</span>
+          <span style="color: #ff0;">78%</span>
+        </div>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.3s;">
+        <div style="
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, rgba(0,255,0,0.2), rgba(0,255,0,0.05));
+          border: 1px solid rgba(0,255,0,0.3);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        ">
+          <iconify-icon icon="lucide:users" width="28" style="color: #0f0;"></iconify-icon>
+        </div>
+        <h3 style="font-family: 'Orbitron'; font-size: 1.2rem; margin-bottom: 0.75rem; color: #0f0;">Organization</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+          Scouting, teamwork, student council
+        </p>
+        <div class="skill-bar-neon">
+          <div class="skill-fill-neon" data-width="88" style="background: linear-gradient(90deg, #0f0, #0ff);"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+          <span>Proficiency</span>
+          <span style="color: #0f0;">88%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ACTIVITIES SECTION ==================== -->
+  <section class="section-cosmic" id="activities">
+    <h2 class="section-title fade-up">
+      <span class="text-hologram" data-text="ACTIVITIES">ACTIVITIES</span>
+    </h2>
+    <p class="section-subtitle fade-up">My extracurricular activities, organizations, and achievements</p>
+
+    <div style="
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    ">
+      <div class="card-holo fade-up">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.05));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <iconify-icon icon="lucide:trophy" width="24" style="color: #ffd700;"></iconify-icon>
+          </div>
+          <span style="
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #ffd700;
+            padding: 0.35rem 0.85rem;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 99px;
+          ">ACHIEVEMENT</span>
+        </div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">2nd Place Math Olympiad City Level</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+          Represented school in Math Olympiad at Kediri Regency level 2024
+        </p>
+        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">November 2024</span>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.1s;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.05));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <iconify-icon icon="lucide:medal" width="24" style="color: #ffd700;"></iconify-icon>
+          </div>
+          <span style="
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #ffd700;
+            padding: 0.35rem 0.85rem;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 99px;
+          ">ACHIEVEMENT</span>
+        </div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">1st Place Mandarin Debate Competition</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+          Won debate competition among high schools in Kediri Regency with school team
+        </p>
+        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">September 2024</span>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.2s;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(0,255,0,0.2), rgba(0,255,0,0.05));
+            border: 1px solid rgba(0,255,0,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <iconify-icon icon="lucide:gamepad-2" width="24" style="color: #0f0;"></iconify-icon>
+          </div>
+          <span style="
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #0f0;
+            padding: 0.35rem 0.85rem;
+            background: rgba(0,255,0,0.1);
+            border: 1px solid rgba(0,255,0,0.2);
+            border-radius: 99px;
+          ">EXTRACURRICULAR</span>
+        </div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">Arsenal Club Leader</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+          Leading Arsenal to stay consistent throughout the season
+        </p>
+        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">2086-2088</span>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.3s;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(0,255,0,0.2), rgba(0,255,0,0.05));
+            border: 1px solid rgba(0,255,0,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <iconify-icon icon="lucide:whistle" width="24" style="color: #0f0;"></iconify-icon>
+          </div>
+          <span style="
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #0f0;
+            padding: 0.35rem 0.85rem;
+            background: rgba(0,255,0,0.1);
+            border: 1px solid rgba(0,255,0,0.2);
+            border-radius: 99px;
+          ">EXTRACURRICULAR</span>
+        </div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">Persik Kediri Coach</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+          Training Persik team to win League 1
+        </p>
+        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">2088-2091</span>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.4s;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(255,0,255,0.05));
+            border: 1px solid rgba(255,0,255,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <iconify-icon icon="lucide:megaphone" width="24" style="color: #f0f;"></iconify-icon>
+          </div>
+          <span style="
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #f0f;
+            padding: 0.35rem 0.85rem;
+            background: rgba(255,0,255,0.1);
+            border: 1px solid rgba(255,0,255,0.2);
+            border-radius: 99px;
+          ">ORGANIZATION</span>
+        </div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">Manchester United Coach</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+          Managing Manchester United for better performance
+        </p>
+        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">2091-2095</span>
+      </div>
+
+      <div class="card-holo fade-up" style="animation-delay: 0.5s;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(255,0,255,0.05));
+            border: 1px solid rgba(255,0,255,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <iconify-icon icon="lucide:handshake" width="24" style="color: #f0f;"></iconify-icon>
+          </div>
+          <span style="
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #f0f;
+            padding: 0.35rem 0.85rem;
+            background: rgba(255,0,255,0.1);
+            border: 1px solid rgba(255,0,255,0.2);
+            border-radius: 99px;
+          ">ORGANIZATION</span>
+        </div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">Student Council (MPK)</h3>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+          Participating in MPK activities orderly and willing to cooperate between organizations
+        </p>
+        <span style="font-size: 0.85rem; color: rgba(255,255,255,0.3);">2025-Present</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GALLERY SECTION ==================== -->
+  <section class="section-cosmic" id="gallery" style="background: rgba(0,255,255,0.01);">
+    <h2 class="section-title fade-up">
+      <span class="text-hologram" data-text="GALLERY">GALLERY</span>
+    </h2>
+    <p class="section-subtitle fade-up">Memorable moments during school activities and at home</p>
+
+    <div class="gallery-grid fade-up" style="max-width: 1400px; margin: 0 auto;">
+      <div class="gallery-item" data-label="Dianpinsat">
+        <img src="pramuka 1.jpg" alt="Dianpinsat">
+      </div>
+      <div class="gallery-item" data-label="Futsal Match">
+        <img src="f.4.jpg" alt="Futsal">
+      </div>
+      <div class="gallery-item" data-label="Playing Time">
+        <img src="2.jpg" alt="Playing">
+      </div>
+      <div class="gallery-item" data-label="Billiard Hobby">
+        <img src="3.jpg" alt="Billiard">
+      </div>
+      <div class="gallery-item" data-label="Billiard Comp">
+        <img src="4.jpg" alt="Competition">
+      </div>
+      <div class="gallery-item" data-label="Tournament">
+        <img src="f.5.jpg" alt="Tournament">
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section class="section-cosmic" id="contact">
+    <h2 class="section-title fade-up">
+      <span class="text-hologram" data-text="CONTACT">CONTACT</span>
+    </h2>
+    <p class="section-subtitle fade-up">Have questions or want to discuss? Send me a message!</p>
+
+    <div style="
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    ">
+      <div class="fade-up">
+        <h3 style="font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 2rem; color: #0ff;">GET IN TOUCH</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="
+              width: 56px;
+              height: 56px;
+              background: rgba(0,255,255,0.05);
+              border: 1px solid rgba(0,255,255,0.2);
+              border-radius: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            ">
+              <iconify-icon icon="lucide:mail" width="24" style="color: #0ff;"></iconify-icon>
+            </div>
+            <div>
+              <div style="font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-bottom: 0.25rem;">Email</div>
+              <div style="font-size: 1.1rem;">aleoktavino9@gmail.com</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="
+              width: 56px;
+              height: 56px;
+              background: rgba(255,0,255,0.05);
+              border: 1px solid rgba(255,0,255,0.2);
+              border-radius: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            ">
+              <iconify-icon icon="lucide:phone" width="24" style="color: #f0f;"></iconify-icon>
+            </div>
+            <div>
+              <div style="font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-bottom: 0.25rem;">Phone</div>
+              <div style="font-size: 1.1rem;">+62 858 5205 2961</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="
+              width: 56px;
+              height: 56px;
+              background: rgba(255,0,255,0.05);
+              border: 1px solid rgba(255,0,255,0.2);
+              border-radius: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            ">
+              <iconify-icon icon="lucide:instagram" width="24" style="color: #f0f;"></iconify-icon>
+            </div>
+            <div>
+              <div style="font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-bottom: 0.25rem;">Instagram</div>
+              <div style="font-size: 1.1rem;">@allvyxnlyy</div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="
+              width: 56px;
+              height: 56px;
+              background: rgba(0,255,255,0.05);
+              border: 1px solid rgba(0,255,255,0.2);
+              border-radius: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            ">
+              <iconify-icon icon="lucide:map-pin" width="24" style="color: #0ff;"></iconify-icon>
+            </div>
+            <div>
+              <div style="font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-bottom: 0.25rem;">School Address</div>
+              <div style="font-size: 1.1rem;">Gang 2 Desa Bulusari, Tarokan District, Kediri Regency, East Java</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
+          <a href="#" style="
+            width: 48px;
+            height: 48px;
+            background: rgba(0,255,255,0.05);
+            border: 1px solid rgba(0,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0ff;
+            text-decoration: none;
+            transition: all 0.4s;
+          " onmouseover="this.style.background='rgba(0,255,255,0.15)'; this.style.boxShadow='0 0 20px rgba(0,255,255,0.3)'" onmouseout="this.style.background='rgba(0,255,255,0.05)'; this.style.boxShadow='none'">
+            <iconify-icon icon="lucide:instagram" width="22"></iconify-icon>
+          </a>
+          <a href="#" style="
+            width: 48px;
+            height: 48px;
+            background: rgba(255,0,255,0.05);
+            border: 1px solid rgba(255,0,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f0f;
+            text-decoration: none;
+            transition: all 0.4s;
+          " onmouseover="this.style.background='rgba(255,0,255,0.15)'; this.style.boxShadow='0 0 20px rgba(255,0,255,0.3)'" onmouseout="this.style.background='rgba(255,0,255,0.05)'; this.style.boxShadow='none'">
+            <iconify-icon icon="lucide:twitter" width="22"></iconify-icon>
+          </a>
+          <a href="#" style="
+            width: 48px;
+            height: 48px;
+            background: rgba(255,0,0,0.05);
+            border: 1px solid rgba(255,0,0,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f00;
+            text-decoration: none;
+            transition: all 0.4s;
+          " onmouseover="this.style.background='rgba(255,0,0,0.15)'; this.style.boxShadow='0 0 20px rgba(255,0,0,0.3)'" onmouseout="this.style.background='rgba(255,0,0,0.05)'; this.style.boxShadow='none'">
+            <iconify-icon icon="lucide:youtube" width="22"></iconify-icon>
+          </a>
+        </div>
+      </div>
+
+      <form class="card-holo fade-up" id="contactForm" onsubmit="handleSubmit(event)" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <input type="text" placeholder="Your Name" class="input-cyber" required>
+          <input type="text" placeholder="Class/School" class="input-cyber">
+        </div>
+        <input type="email" placeholder="Email Address" class="input-cyber" required>
+        <select class="input-cyber" style="appearance: none; cursor: pointer;">
+          <option value="">Select Subject...</option>
+          <option>School Project</option>
+          <option>Collaboration</option>
+          <option>Discussion</option>
+          <option>Just Saying Hi</option>
+          <option>Other</option>
+        </select>
+        <textarea placeholder="Write your message here..." class="input-cyber" rows="5" required style="resize: none;"></textarea>
+        <button type="submit" class="btn-cyber btn-cyber-filled" style="
+          width: 100%;
+          padding: 1.25rem;
+          font-size: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+        ">
+          <iconify-icon icon="lucide:send" width="20"></iconify-icon> Send Message
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer-cyber">
+    <div style="
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(0,255,255,0.1);
+    ">
+      <a href="#hero" style="
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: #fff;
+      ">
+        <div style="
+          width: 45px;
+          height: 45px;
+          background: linear-gradient(135deg, #0ff, #f0f);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 900;
+          font-size: 1.3rem;
+          color: #000;
+        ">A</div>
+        <span style="font-family: 'Orbitron'; font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;">PORTFOLIO</span>
+      </a>
+
+      <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <a href="#about" class="nav-link-cyber" style="font-size: 0.85rem;">About</a>
+        <a href="#skills" class="nav-link-cyber" style="font-size: 0.85rem;">Skills</a>
+        <a href="#activities" class="nav-link-cyber" style="font-size: 0.85rem;">Activities</a>
+        <a href="#gallery" class="nav-link-cyber" style="font-size: 0.85rem;">Gallery</a>
+        <a href="#contact" class="nav-link-cyber" style="font-size: 0.85rem;">Contact</a>
+      </div>
+    </div>
+
+    <div style="
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    >
+      <span>© 2025 Portfolio Ale Oktavino. School Assignment.</span>
+      <span>Made with <span style="color: #f0f;">♥</span> for school project</span>
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div class="toast-cyber" id="toastCyber">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <div id="toastIcon" style="
+        width: 48px;
+        height: 48px;
+        background: rgba(0,255,0,0.1);
+        border: 1px solid rgba(0,255,0,0.3);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      ">
+        <iconify-icon icon="lucide:check-circle" width="24" style="color: #0f0;"></iconify-icon>
+      </div>
+      <div>
+        <div id="toastTitle" style="font-family: 'Orbitron'; font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem;">Success!</div>
+        <div id="toastMessage" style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">Message sent successfully.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // =============================
+    // LOADING SCREEN
+    // =============================
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loaderQuantum').classList.add('hidden');
+      }, 2500);
+    });
+
+    // =============================
+    // MATRIX RAIN
+    // =============================
+    function createMatrixRain() {
+      const container = document.getElementById('matrixContainer');
+      const columns = Math.floor(window.innerWidth / 20);
+      
+      for (let i = 0; i < columns; i++) {
+        const column = document.createElement('div');
+        column.className = 'matrix-column';
+        column.style.left = `${i * 20}px`;
+        column.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        column.style.animationDelay = `${Math.random() * -20}s`;
+        
+        let chars = '';
+        const length = Math.floor(Math.random() * 20) + 10;
+        for (let j = 0; j < length; j++) {
+          chars += String.fromCharCode(0x30A0 + Math.random() * 96);
+        }
+        column.textContent = chars;
+        
+        container.appendChild(column);
+      }
+    }
+    createMatrixRain();
+
+    // =============================
+    // HERO PARTICLES (STARS)
+    // =============================
+    function createHeroParticles() {
+      const container = document.getElementById('heroParticles');
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'hero-particle';
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particle.style.color = ['#0ff', '#f0f', '#ff0', '#0f0'][Math.floor(Math.random() * 4)];
+        container.appendChild(particle);
+      }
+    }
+    createHeroParticles();
+
+    // =============================
+    // CURSOR COMET SYSTEM
+    // =============================
+    const cursorComet = document.getElementById('cursorComet');
+    const cometTrailsContainer = document.getElementById('cometTrails');
+    let mouseX = 0, mouseY = 0;
+    let angle = 0;
+
+    const trails = [];
+    const trailCount = 20;
+
+    for (let i = 0; i < trailCount; i++) {
+      const trail = document.createElement('div');
+      trail.className = 'comet-trail';
+      trail.style.background = `radial-gradient(circle, ${['#0ff', '#f0f', '#ff0', '#0f0'][i % 4]} 0%, transparent 70%)`;
+      trail.style.boxShadow = `0 0 ${15 + i}px ${['#0ff', '#f0f', '#ff0', '#0f0'][i % 4]}`;
+      cometTrailsContainer.appendChild(trail);
+      trails.push({ el: trail, x: 0, y: 0 });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      cursorComet.style.left = mouseX - 10 + 'px';
+      cursorComet.style.top = mouseY - 10 + 'px';
+      
+      angle += 5;
+      cursorComet.style.setProperty('--angle', angle + 'deg');
+
+      trails.forEach((trail, index) => {
+        setTimeout(() => {
+          trail.x = mouseX;
+          trail.y = mouseY;
+          trail.el.style.left = mouseX - 4 + 'px';
+          trail.el.style.top = mouseY - 4 + 'px';
+          trail.el.style.opacity = 1 - (index / trailCount);
+        }, index * 20);
+      });
+    });
+
+    // =============================
+    // SCROLL PROGRESS
+    // =============================
+    const scrollProgress = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      scrollProgress.style.width = scrollPercent + '%';
+    });
+
+    // =============================
+    // NAVIGATION
+    // =============================
+    const navCyber = document.getElementById('navCyber');
+    const navLinks = document.querySelectorAll('.nav-link-cyber');
+    const sections = document.querySelectorAll('section[id]');
+    const hamburgerCyber = document.getElementById('hamburgerCyber');
+    const mobileMenuCyber = document.getElementById('mobileMenuCyber');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        navCyber.classList.add('scrolled');
+      } else {
+        navCyber.classList.remove('scrolled');
+      }
+
+      const scrollPos = window.scrollY + 200;
+      sections.forEach(section => {
+        if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.section === section.id) link.classList.add('active');
+          });
+        }
+      });
+    });
+
+    hamburgerCyber.addEventListener('click', () => {
+      hamburgerCyber.classList.toggle('active');
+      mobileMenuCyber.classList.toggle('open');
+    });
+
+    function closeMobileMenu() {
+      hamburgerCyber.classList.remove('active');
+      mobileMenuCyber.classList.remove('open');
+    }
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-menu-cyber a').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // =============================
+    // FADE UP ANIMATION
+    // =============================
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Animate skill bars
+          entry.target.querySelectorAll('.skill-fill-neon').forEach(bar => {
+            setTimeout(() => {
+              bar.style.width = bar.dataset.width + '%';
+            }, 300);
+          });
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // =============================
+    // CONTACT FORM
+    // =============================
+    function handleSubmit(e) {
+      e.preventDefault();
+      
+      showToast('Message Sent! 🎉', 'Thank you for reaching out. I\'ll get back to you soon!', 'success');
+      e.target.reset();
+    }
+
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toastCyber');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMessage').textContent = message;
+      
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    // =============================
+    // PARALLAX ON MOUSE MOVE (HERO)
+    // =============================
+    const heroSection = document.getElementById('hero');
+    if (heroSection) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const x = (window.innerWidth / 2 - e.clientX) / 30;
+        const y = (window.innerHeight / 2 - e.clientY) / 30;
+        
+        document.querySelectorAll('.geo-shape').forEach((el, index) => {
+          const speed = (index + 1) * 0.5;
+          el.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        });
+      });
+    }
+
+    // =============================
+    // SMOOTH SCROLL
+    // =============================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
