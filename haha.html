@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayam Geprek Royale — Elegan & Berkualitas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          },
+          colors: {
+            gold: {
+              50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a',
+              300: '#fcd34d', 400: '#fbbf24', 500: '#f59e0b',
+              600: '#d97706', 700: '#b45309', 800: '#92400e',
+              900: '#78350f', 950: '#451a03'
+            },
+            dark: {
+              50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0',
+              300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b',
+              600: '#475569', 700: '#334155', 800: '#1e293b',
+              900: '#0f172a', 950: '#020617'
+            }
+          },
+          letterSpacing: { tighter: '-0.04em', tight: '-0.02em' }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #b45309; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #d97706; }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, #d97706, #f59e0b);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(-50%);
+      border-radius: 999px;
+    }
+    .nav-link.active::after { width: 100%; }
+    .nav-link.active { color: #fbbf24 !important; }
+
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+    .mobile-menu.open { max-height: 400px; opacity: 1; }
+
+    .hamburger span { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .section-hidden {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .section-visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .text-shimmer {
+      background: linear-gradient(90deg, #fde68a, #f59e0b, #fde68a, #d97706, #fde68a);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    .float-slow { animation: floatSlow 6s ease-in-out infinite; }
+    .float-slow-delay { animation: floatSlow 6s ease-in-out 2s infinite; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-elegant {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-elegant:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(217, 119, 6, 0.08);
+    }
+
+    .divider-gold {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d97706, transparent);
+    }
+
+    .toast {
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .toast.show { transform: translateX(0); }
+
+    .border-gold-gradient {
+      border-image: linear-gradient(135deg, #d97706, #fbbf24, #d97706) 1;
+    }
+
+    /* Elegant pattern overlay */
+    .pattern-overlay {
+      background-image: radial-gradient(circle at 1px 1px, rgba(180, 83, 9, 0.03) 1px, transparent 0);
+      background-size: 40px 40px;
+    }
+  </style>
+</head>
+<body class="font-sans bg-dark-950 text-dark-100 antialiased">
+
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 border border-gold-600/50 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:border-gold-400 group-hover:shadow-lg group-hover:shadow-gold-500/10 bg-dark-900/80">
+          <iconify-icon icon="lucide:crown" class="text-gold-500" width="18"></iconify-icon>
+        </div>
+        <div>
+          <span class="font-serif font-bold text-lg tracking-tight nav-logo-text text-white">Royale</span>
+          <span class="block text-[9px] nav-sub-text text-gold-600/60 tracking-[0.25em] uppercase">Geprek House</span>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-1">
+        <a href="#hero" class="nav-link active px-4 py-2 text-[13px] font-medium rounded-lg transition-colors duration-300 nav-text-color hover:text-gold-400" data-section="hero">Beranda</a>
+        <a href="#about" class="nav-link px-4 py-2 text-[13px] font-medium rounded-lg transition-colors duration-300 nav-text-color hover:text-gold-400" data-section="about">Tentang</a>
+        <a href="#menu" class="nav-link px-4 py-2 text-[13px] font-medium rounded-lg transition-colors duration-300 nav-text-color hover:text-gold-400" data-section="menu">Menu</a>
+        <a href="#testimonials" class="nav-link px-4 py-2 text-[13px] font-medium rounded-lg transition-colors duration-300 nav-text-color hover:text-gold-400" data-section="testimonials">Testimoni</a>
+        <a href="#contact" class="nav-link px-4 py-2 text-[13px] font-medium rounded-lg transition-colors duration-300 nav-text-color hover:text-gold-400" data-section="contact">Kontak</a>
+      </div>
+
+      <a href="#contact" class="hidden md:inline-flex items-center gap-2 bg-gold-600 hover:bg-gold-500 text-dark-950 text-[13px] font-semibold px-5 py-2.5 rounded-lg transition-all duration-300 shadow-lg shadow-gold-600/20 hover:shadow-gold-500/30">
+        <iconify-icon icon="lucide:shopping-bag" width="15"></iconify-icon>
+        Pesan Sekarang
+      </a>
+
+      <button id="hamburgerBtn" class="hamburger md:hidden flex flex-col gap-1.5 p-2 -mr-2" aria-label="Menu">
+        <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
+        <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
+        <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="mobile-menu md:hidden">
+      <div class="px-6 pb-4 pt-2 flex flex-col gap-1 border-t border-gold-900/20 mobile-menu-bg">
+        <a href="#hero" class="mobile-nav-link active px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="hero">
+          <iconify-icon icon="lucide:home" width="16" class="mr-2 align-middle"></iconify-icon>Beranda
+        </a>
+        <a href="#about" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="about">
+          <iconify-icon icon="lucide:info" width="16" class="mr-2 align-middle"></iconify-icon>Tentang
+        </a>
+        <a href="#menu" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="menu">
+          <iconify-icon icon="lucide:utensils" width="16" class="mr-2 align-middle"></iconify-icon>Menu
+        </a>
+        <a href="#testimonials" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="testimonials">
+          <iconify-icon icon="lucide:message-circle" width="16" class="mr-2 align-middle"></iconify-icon>Testimoni
+        </a>
+        <a href="#contact" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="contact">
+          <iconify-icon icon="lucide:map-pin" width="16" class="mr-2 align-middle"></iconify-icon>Kontak
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero" class="relative min-h-[700px] h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background -->
+    <div class="absolute inset-0">
+      <img src="https://picsum.photos/seed/elegant-dining-dark/1920/1080.jpg" alt="Hero" class="w-full h-full object-cover opacity-20">
+      <div class="absolute inset-0 bg-gradient-to-b from-dark-950/60 via-dark-950/80 to-dark-950"></div>
+    </div>
+
+    <!-- Decorative -->
+    <div class="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-gold-600/5 rounded-full blur-[120px] float-slow"></div>
+    <div class="absolute bottom-1/3 left-1/4 w-[300px] h-[300px] bg-gold-700/5 rounded-full blur-[100px] float-slow-delay"></div>
+    <div class="absolute inset-0 pattern-overlay"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <!-- Ornament -->
+      <div class="flex items-center justify-center gap-3 mb-8">
+        <div class="w-16 h-px bg-gradient-to-r from-transparent to-gold-600/50"></div>
+        <iconify-icon icon="lucide:crown" class="text-gold-500/60" width="20"></iconify-icon>
+        <div class="w-16 h-px bg-gradient-to-l from-transparent to-gold-600/50"></div>
+      </div>
+
+      <p class="text-gold-500/80 text-sm font-medium tracking-[0.3em] uppercase mb-6">Sejak 2020 · Resep Turun-Temurun</p>
+
+      <h1 class="font-serif text-5xl sm:text-6xl lg:text-8xl font-bold text-white tracking-tight leading-[1.05] mb-6">
+        Nasi Geprek<br>
+        <span class="text-shimmer">Royale</span>
+      </h1>
+
+      <p class="text-dark-300 text-lg sm:text-xl max-w-xl mx-auto mb-12 leading-relaxed font-light">
+        Cita rasa autentik dengan sentuhan modern. Ayam crispy, sambal beraroma, dan kehangatan dalam setiap suapan.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#menu" class="inline-flex items-center gap-2.5 bg-gold-600 hover:bg-gold-500 text-dark-950 font-semibold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg shadow-gold-600/20 hover:shadow-gold-500/30">
+          Jelajahi Menu
+          <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
+        </a>
+        <a href="#about" class="inline-flex items-center gap-2.5 border border-dark-600 hover:border-gold-700/50 text-dark-200 hover:text-gold-400 font-medium px-8 py-4 rounded-lg transition-all duration-300">
+          Cerita Kami
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex items-center justify-center gap-10 sm:gap-16 mt-20 pt-10 border-t border-dark-800/50">
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-serif font-bold text-gold-400 tracking-tight">50K+</div>
+          <div class="text-[11px] text-dark-400 mt-1.5 uppercase tracking-[0.15em]">Piring Disajikan</div>
+        </div>
+        <div class="w-px h-12 bg-dark-800/60"></div>
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-serif font-bold text-gold-400 tracking-tight">4.9</div>
+          <div class="text-[11px] text-dark-400 mt-1.5 uppercase tracking-[0.15em]">Rating Pelanggan</div>
+        </div>
+        <div class="w-px h-12 bg-dark-800/60"></div>
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-serif font-bold text-gold-400 tracking-tight">12</div>
+          <div class="text-[11px] text-dark-400 mt-1.5 uppercase tracking-[0.15em]">Menu Andalan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <span class="text-[10px] text-dark-500 uppercase tracking-[0.2em]">Scroll</span>
+      <iconify-icon icon="lucide:chevron-down" class="text-dark-500" width="16"></iconify-icon>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section id="about" class="py-28 relative overflow-hidden section-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-700/3 rounded-full blur-[150px]"></div>
+    <div class="absolute inset-0 pattern-overlay"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-20 items-center">
+        <!-- Image -->
+        <div class="relative">
+          <div class="relative rounded-2xl overflow-hidden border border-dark-700/30">
+            <img src="https://picsum.photos/seed/elegant-kitchen-prep/600/750.jpg" alt="Tentang Kami" class="w-full h-[550px] object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-950/70 via-transparent to-transparent"></div>
+          </div>
+          <!-- Decorative border -->
+          <div class="absolute -inset-3 rounded-2xl border border-gold-600/10 -z-10"></div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-5 -right-5 bg-dark-900 border border-gold-700/30 rounded-2xl shadow-2xl p-5">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 bg-gold-600/10 border border-gold-600/20 rounded-lg flex items-center justify-center">
+                <iconify-icon icon="lucide:award" class="text-gold-500" width="22"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-xl font-serif font-bold text-gold-400">5 Tahun</div>
+                <div class="text-[10px] text-dark-400 uppercase tracking-wider">Berkualitas</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-8 h-px bg-gold-600/50"></div>
+            <span class="text-gold-500/80 text-xs font-semibold tracking-[0.2em] uppercase">Cerita Kami</span>
+          </div>
+          <h2 class="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight mb-8 leading-[1.15]">
+            Tradisi Rasa,<br>
+            <span class="text-gold-400">Sentuhan Royale</span>
+          </h2>
+          <p class="text-dark-300 leading-relaxed mb-6 font-light">
+            <strong class="text-dark-100 font-medium">Geprek Royale</strong> lahir dari kecintaan terhadap cita rasa ayam geprek autentik Indonesia. Kami mengawali perjalanan dari dapur kecil pada tahun 2020, dan kini telah melayani lebih dari 50.000 piring nasi geprek.
+          </p>
+          <p class="text-dark-400 leading-relaxed mb-10 font-light">
+            Setiap piring kami sajikan dengan ayam pilihan yang digoreng renyah sempurna, disiram sambal segar yang dibuat setiap hari, dan disajikan dengan nasi putih pulen. Bukan sekadar pedas — ini tentang keseimbangan rasa yang membuat Anda selalu kembali.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 mb-10">
+            <div class="flex items-center gap-3 bg-dark-900/50 border border-dark-800/50 p-3.5 rounded-xl">
+              <iconify-icon icon="lucide:leaf" class="text-gold-600" width="16"></iconify-icon>
+              <span class="text-sm text-dark-300">Bahan Segar Harian</span>
+            </div>
+            <div class="flex items-center gap-3 bg-dark-900/50 border border-dark-800/50 p-3.5 rounded-xl">
+              <iconify-icon icon="lucide:shield-check" class="text-gold-600" width="16"></iconify-icon>
+              <span class="text-sm text-dark-300">Halal & Higienis</span>
+            </div>
+            <div class="flex items-center gap-3 bg-dark-900/50 border border-dark-800/50 p-3.5 rounded-xl">
+              <iconify-icon icon="lucide:flame" class="text-gold-600" width="16"></iconify-icon>
+              <span class="text-sm text-dark-300">Sambal Homemade</span>
+            </div>
+            <div class="flex items-center gap-3 bg-dark-900/50 border border-dark-800/50 p-3.5 rounded-xl">
+              <iconify-icon icon="lucide:heart" class="text-gold-600" width="16"></iconify-icon>
+              <span class="text-sm text-dark-300">Dibuat dengan Cinta</span>
+            </div>
+          </div>
+
+          <a href="#menu" class="inline-flex items-center gap-2 text-gold-400 hover:text-gold-300 font-medium text-sm transition-colors duration-300 group">
+            Lihat Menu Andalan
+            <iconify-icon icon="lucide:arrow-right" width="16" class="transition-transform duration-300 group-hover:translate-x-1"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DIVIDER ==================== -->
+  <div class="divider-gold max-w-xs mx-auto"></div>
+
+  <!-- ==================== MENU ==================== -->
+  <section id="menu" class="py-28 relative overflow-hidden section-hidden">
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-700/3 rounded-full blur-[130px]"></div>
+    <div class="absolute inset-0 pattern-overlay"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <!-- Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="flex items-center justify-center gap-3 mb-5">
+          <div class="w-8 h-px bg-gold-600/50"></div>
+          <span class="text-gold-500/80 text-xs font-semibold tracking-[0.2em] uppercase">Menu Kami</span>
+          <div class="w-8 h-px bg-gold-600/50"></div>
+        </div>
+        <h2 class="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">Menu Andalan</h2>
+        <p class="text-dark-400 leading-relaxed font-light">Kurasi terbaik dari dapur kami, disiapkan dengan bahan pilihan dan resep turun-temurun.</p>
+      </div>
+
+      <!-- Filter -->
+      <div class="flex items-center justify-center gap-2 mb-14 flex-wrap">
+        <button class="filter-btn active bg-gold-600 text-dark-950 px-5 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-300" data-filter="all">Semua</button>
+        <button class="filter-btn bg-dark-800/60 text-dark-400 hover:text-gold-400 border border-dark-700/50 hover:border-gold-700/30 px-5 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-300" data-filter="geprek">Geprek</button>
+        <button class="filter-btn bg-dark-800/60 text-dark-400 hover:text-gold-400 border border-dark-700/50 hover:border-gold-700/30 px-5 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-300" data-filter="nasi">Nasi</button>
+        <button class="filter-btn bg-dark-800/60 text-dark-400 hover:text-gold-400 border border-dark-700/50 hover:border-gold-700/30 px-5 py-2 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-300" data-filter="minuman">Minuman</button>
+      </div>
+
+      <!-- Menu Grid -->
+      <div id="menuGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+
+        <!-- 1 -->
+        <div class="menu-card" data-category="geprek">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/geprek-classic-plate/600/400.jpg" alt="Geprek Klasik" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3 bg-gold-600/90 text-dark-950 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Best Seller</div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">18K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Geprek Klasik</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Ayam crispy geprek sambal bawang original. Simpel, nikmat, dan selalu jadi favorit.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-gold-600 bg-gold-600/10 px-2 py-0.5 rounded font-medium">Pedas Sedang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="menu-card" data-category="geprek">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/geprek-mozarella-melt/600/400.jpg" alt="Geprek Mozarella" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3 bg-white/90 text-dark-900 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Premium</div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">25K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Geprek Mozarella</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Keju mozarella meleleh di atas ayam geprek crispy. Perpaduan gurih dan pedas yang sempurna.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-gold-600 bg-gold-600/10 px-2 py-0.5 rounded font-medium">Pedas Ringan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="menu-card" data-category="geprek">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/geprek-sambal-matah/600/400.jpg" alt="Geprek Sambal Matah" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3 bg-emerald-500/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">New</div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">22K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Geprek Sambal Matah</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Sambal matah Bali yang segar dengan serai, bawang merah, dan cabai rawit. Aroma yang menggoda.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-gold-600 bg-gold-600/10 px-2 py-0.5 rounded font-medium">Pedas Ringan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="menu-card" data-category="geprek">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/geprek-butter-garlic/600/400.jpg" alt="Geprek Butter Garlic" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">24K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Geprek Butter Garlic</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Ayam geprek dengan saus butter garlic yang rich dan harum. Favorit yang tidak suka terlalu pedas.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-dark-500 bg-dark-700/50 px-2 py-0.5 rounded font-medium">Tidak Pedas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="menu-card" data-category="nasi">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/nasi-bakar-aromatik/600/400.jpg" alt="Nasi Bakar Geprek" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3 bg-amber-500/90 text-dark-950 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Chef's Pick</div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">28K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Nasi Bakar Geprek</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Nasi bakar daun pisang dengan suwiran ayam geprek dan sambal terasi. Aroma hangat yang memanjakan.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-gold-600 bg-gold-600/10 px-2 py-0.5 rounded font-medium">Pedas Sedang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="menu-card" data-category="nasi">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/nasi-ayam-penyet-ijo/600/400.jpg" alt="Ayam Penyet Sambal Ijo" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">20K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Ayam Penyet Sambal Ijo</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Sambal ijo khas Padang yang gurih dengan cabai hijau dan tomat hijau. Pedasnya nendang!</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-gold-600 bg-gold-600/10 px-2 py-0.5 rounded font-medium">Pedas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="menu-card" data-category="nasi">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/geprek-sambal-bawang-crispy/600/400.jpg" alt="Geprek Sambal Bawang" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">20K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Geprek Sambal Bawang</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Sambal bawang goreng renyah yang gurih dengan taburan bawang crispy. Teksturnya bikin nagih!</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-gold-600 bg-gold-600/10 px-2 py-0.5 rounded font-medium">Pedas Sedang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="menu-card" data-category="minuman">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/teh-tarik-creamy/600/400.jpg" alt="Es Teh Tarik" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">8K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Es Teh Tarik Royale</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Teh tarik dengan creamer yang lembut. Companion sempurna untuk teman makan geprek.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-dark-500 bg-dark-700/50 px-2 py-0.5 rounded font-medium">Dingin & Segar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="menu-card" data-category="minuman">
+          <div class="card-elegant bg-dark-900/80 border border-dark-700/30 rounded-2xl overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/lemon-squash-fresh/600/400.jpg" alt="Lemon Squash" class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+              <div class="absolute bottom-3 right-3">
+                <span class="font-serif text-2xl font-bold text-gold-400">10K</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h4 class="font-serif font-bold text-lg text-white mb-1.5">Lemon Squash Premium</h4>
+              <p class="text-sm text-dark-400 font-light leading-relaxed">Perasan lemon segar dengan soda dan daun mint. Pemadam pedas yang menyegarkan tenggorokan.</p>
+              <div class="flex items-center gap-1.5 mt-3">
+                <span class="text-[10px] text-dark-500 bg-dark-700/50 px-2 py-0.5 rounded font-medium">Dingin & Segar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section id="testimonials" class="py-28 relative overflow-hidden section-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gold-700/3 rounded-full blur-[130px]"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="flex items-center justify-center gap-3 mb-5">
+          <div class="w-8 h-px bg-gold-600/50"></div>
+          <span class="text-gold-500/80 text-xs font-semibold tracking-[0.2em] uppercase">Testimoni</span>
+          <div class="w-8 h-px bg-gold-600/50"></div>
+        </div>
+        <h2 class="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">Kata Mereka</h2>
+        <p class="text-dark-400 leading-relaxed font-light">Cerita dari pelanggan setia Geprek Royale.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-7">
+        <div class="bg-dark-900/60 border border-dark-700/30 rounded-2xl p-7 hover:border-gold-700/20 transition-all duration-300">
+          <iconify-icon icon="lucide:quote" class="text-gold-600/20 mb-4" width="32"></iconify-icon>
+          <p class="text-dark-300 text-sm leading-relaxed mb-6 font-light">"Geprek Mozarella-nya luar biasa. Kejunya lumer sempurna, ayamnya renyah, dan porsinya sangat worth it. Jadi langganan tiap minggu!"</p>
+          <div class="flex items-center gap-1 mb-5">
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+          </div>
+          <div class="flex items-center gap-3 pt-5 border-t border-dark-800/40">
+            <img src="https://picsum.photos/seed/person-diana-elegant/80/80.jpg" alt="Diana" class="w-10 h-10 rounded-full object-cover border border-dark-700/50">
+            <div>
+              <div class="text-sm font-medium text-white">Diana Putri</div>
+              <div class="text-[11px] text-dark-500">Desainer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-900/60 border border-dark-700/30 rounded-2xl p-7 hover:border-gold-700/20 transition-all duration-300">
+          <iconify-icon icon="lucide:quote" class="text-gold-600/20 mb-4" width="32"></iconify-icon>
+          <p class="text-dark-300 text-sm leading-relaxed mb-6 font-light">"Sambal matah-nya segar banget, beda dari yang lain. Porsinya jujur, rasanya konsisten. Ini standar geprek yang beneran."</p>
+          <div class="flex items-center gap-1 mb-5">
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+          </div>
+          <div class="flex items-center gap-3 pt-5 border-t border-dark-800/40">
+            <img src="https://picsum.photos/seed/person-andi-elegant/80/80.jpg" alt="Andi" class="w-10 h-10 rounded-full object-cover border border-dark-700/50">
+            <div>
+              <div class="text-sm font-medium text-white">Andi Rachman</div>
+              <div class="text-[11px] text-dark-500">Software Engineer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-dark-900/60 border border-dark-700/30 rounded-2xl p-7 hover:border-gold-700/20 transition-all duration-300">
+          <iconify-icon icon="lucide:quote" class="text-gold-600/20 mb-4" width="32"></iconify-icon>
+          <p class="text-dark-300 text-sm leading-relaxed mb-6 font-light">"Nasi bakar geprek-nya juara! Aroma daun pisangnya bikin nafsu makan naik. Bawa keluarga makan di sini selalu puas."</p>
+          <div class="flex items-center gap-1 mb-5">
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+            <iconify-icon icon="lucide:star" class="text-gold-500" width="14"></iconify-icon>
+          </div>
+          <div class="flex items-center gap-3 pt-5 border-t border-dark-800/40">
+            <img src="https://picsum.photos/seed/person-siti-elegant/80/80.jpg" alt="Siti" class="w-10 h-10 rounded-full object-cover border border-dark-700/50">
+            <div>
+              <div class="text-sm font-medium text-white">Siti Nurhaliza</div>
+              <div class="text-[11px] text-dark-500">Ibu Rumah Tangga</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA ==================== -->
+  <section class="py-20 relative overflow-hidden section-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-gold-900/40 via-gold-800/20 to-gold-900/40"></div>
+    <div class="absolute inset-0 pattern-overlay"></div>
+    <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
+      <iconify-icon icon="lucide:crown" class="text-gold-500/40 mb-5" width="36"></iconify-icon>
+      <h2 class="font-serif text-3xl lg:text-4xl font-bold text-white mb-4">Siap Menikmati Keistimewaan?</h2>
+      <p class="text-dark-300 font-light leading-relaxed mb-8 max-w-xl mx-auto">Pesan sekarang dan rasakan kenikmatan ayam geprek yang berbeda dari yang lain. Bisa dine-in, takeaway, atau delivery.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#contact" class="inline-flex items-center gap-2 bg-gold-600 hover:bg-gold-500 text-dark-950 font-semibold px-8 py-3.5 rounded-lg transition-all duration-300 shadow-lg shadow-gold-600/20">
+          <iconify-icon icon="lucide:shopping-bag" width="18"></iconify-icon>
+          Pesan Sekarang
+        </a>
+        <a href="https://wa.me/6281234567890" class="inline-flex items-center gap-2 border border-dark-600 hover:border-gold-700/50 text-dark-200 hover:text-gold-400 font-medium px-8 py-3.5 rounded-lg transition-all duration-300">
+          <iconify-icon icon="lucide:message-circle" width="18"></iconify-icon>
+          Chat WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact" class="py-28 relative overflow-hidden section-hidden">
+    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gold-700/3 rounded-full blur-[150px]"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-8 h-px bg-gold-600/50"></div>
+            <span class="text-gold-500/80 text-xs font-semibold tracking-[0.2em] uppercase">Hubungi Kami</span>
+          </div>
+          <h2 class="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">Kunjungi atau <span class="text-gold-400">Pesan Online</span></h2>
+          <p class="text-dark-400 leading-relaxed font-light mb-10">Kami siap melayani Anda setiap hari. Datang langsung atau pesan melalui platform favorit Anda.</p>
+
+          <div class="space-y-5 mb-10">
+            <div class="flex items-start gap-4 p-4 bg-dark-900/40 border border-dark-800/40 rounded-xl">
+              <div class="w-10 h-10 bg-gold-600/10 border border-gold-600/20 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                <iconify-icon icon="lucide:map-pin" class="text-gold-500" width="18"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-[11px] text-dark-500 uppercase tracking-wider mb-1">Alamat</div>
+                <div class="text-sm text-dark-200 font-medium">Jl. Kemang Raya No. 45, Jakarta Selatan</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-4 bg-dark-900/40 border border-dark-800/40 rounded-xl">
+              <div class="w-10 h-10 bg-gold-600/10 border border-gold-600/20 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                <iconify-icon icon="lucide:phone" class="text-gold-500" width="18"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-[11px] text-dark-500 uppercase tracking-wider mb-1">WhatsApp</div>
+                <div class="text-sm text-dark-200 font-medium">+62 812-3456-7890</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-4 bg-dark-900/40 border border-dark-800/40 rounded-xl">
+              <div class="w-10 h-10 bg-gold-600/10 border border-gold-600/20 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                <iconify-icon icon="lucide:clock" class="text-gold-500" width="18"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-[11px] text-dark-500 uppercase tracking-wider mb-1">Jam Operasional</div>
+                <div class="text-sm text-dark-200 font-medium">Setiap hari, 10.00 — 22.00 WIB</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-4 bg-dark-900/40 border border-dark-800/40 rounded-xl">
+              <div class="w-10 h-10 bg-gold-600/10 border border-gold-600/20 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                <iconify-icon icon="lucide:bike" class="text-gold-500" width="18"></iconify-icon>
+              </div>
+              <div>
+                <div class="text-[11px] text-dark-500 uppercase tracking-wider mb-1">Tersedia di</div>
+                <div class="text-sm text-dark-200 font-medium">GoFood · GrabFood · ShopeeFood</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 pt-8 border-t border-dark-800/30">
+            <a href="#" class="w-10 h-10 border border-dark-700/50 hover:border-gold-600/50 hover:bg-gold-600/10 rounded-lg flex items-center justify-center text-dark-400 hover:text-gold-400 transition-all duration-300">
+              <iconify-icon icon="lucide:instagram" width="18"></iconify-icon>
+            </a>
+            <a href="#" class="w-10 h-10 border border-dark-700/50 hover:border-gold-600/50 hover:bg-gold-600/10 rounded-lg flex items-center justify-center text-dark-400 hover:text-gold-400 transition-all duration-300">
+              <iconify-icon icon="lucide:facebook" width="18"></iconify-icon>
+            </a>
+            <a href="#" class="w-10 h-10 border border-dark-700/50 hover:border-gold-600/50 hover:bg-gold-600/10 rounded-lg flex items-center justify-center text-dark-400 hover:text-gold-400 transition-all duration-300">
+              <iconify-icon icon="lucide:twitter" width="18"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="bg-dark-900/60 border border-dark-700/30 rounded-2xl p-8">
+          <h3 class="font-serif text-xl font-bold text-white mb-1">Pesan Sekarang</h3>
+          <p class="text-sm text-dark-500 font-light mb-6">Isi form berikut, pesanan akan dikirim via WhatsApp.</p>
+          <form id="contactForm" class="space-y-4">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-medium text-dark-400 uppercase tracking-wider mb-2">Nama</label>
+                <input type="text" id="nameInput" placeholder="Nama Anda" class="w-full px-4 py-3 rounded-lg border border-dark-700/50 bg-dark-800/50 text-white text-sm placeholder:text-dark-600 focus:outline-none focus:border-gold-600/50 focus:ring-1 focus:ring-gold-600/20 transition-all duration-200" required>
+              </div>
+              <div>
+                <label class="block text-[11px] font-medium text-dark-400 uppercase tracking-wider mb-2">WhatsApp</label>
+                <input type="tel" id="phoneInput" placeholder="08xxxxxxxxxx" class="w-full px-4 py-3 rounded-lg border border-dark-700/50 bg-dark-800/50 text-white text-sm placeholder:text-dark-600 focus:outline-none focus:border-gold-600/50 focus:ring-1 focus:ring-gold-600/20 transition-all duration-200" required>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-dark-400 uppercase tracking-wider mb-2">Menu</label>
+              <select id="menuInput" class="w-full px-4 py-3 rounded-lg border border-dark-700/50 bg-dark-800/50 text-white text-sm focus:outline-none focus:border-gold-600/50 focus:ring-1 focus:ring-gold-600/20 transition-all duration-200">
+                <option value="">Pilih menu...</option>
+                <option>Geprek Klasik — 18K</option>
+                <option>Geprek Mozarella — 25K</option>
+                <option>Geprek Sambal Matah — 22K</option>
+                <option>Geprek Butter Garlic — 24K</option>
+                <option>Nasi Bakar Geprek — 28K</option>
+                <option>Ayam Penyet Sambal Ijo — 20K</option>
+                <option>Geprek Sambal Bawang — 20K</option>
+                <option>Es Teh Tarik Royale — 8K</option>
+                <option>Lemon Squash Premium — 10K</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-dark-400 uppercase tracking-wider mb-2">Jumlah</label>
+              <div class="flex items-center gap-3">
+                <button type="button" id="minusBtn" class="w-10 h-10 border border-dark-700/50 rounded-lg flex items-center justify-center text-dark-400 hover:text-white hover:border-gold-600/50 transition-all duration-200">
+                  <iconify-icon icon="lucide:minus" width="16"></iconify-icon>
+                </button>
+                <span id="qtyDisplay" class="text-lg font-semibold text-white w-8 text-center">1</span>
+                <button type="button" id="plusBtn" class="w-10 h-10 border border-dark-700/50 rounded-lg flex items-center justify-center text-dark-400 hover:text-white hover:border-gold-600/50 transition-all duration-200">
+                  <iconify-icon icon="lucide:plus" width="16"></iconify-icon>
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-dark-400 uppercase tracking-wider mb-2">Catatan</label>
+              <textarea id="messageInput" rows="3" placeholder="Contoh: tambah nasi, extra sambal, telp saat sampai..." class="w-full px-4 py-3 rounded-lg border border-dark-700/50 bg-dark-800/50 text-white text-sm placeholder:text-dark-600 focus:outline-none focus:border-gold-600/50 focus:ring-1 focus:ring-gold-600/20 transition-all duration-200 resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full flex items-center justify-center gap-2 bg-gold-600 hover:bg-gold-500 text-dark-950 font-semibold px-6 py-3.5 rounded-lg transition-all duration-300 shadow-lg shadow-gold-600/20 hover:shadow-gold-500/30 mt-2">
+              <iconify-icon icon="lucide:send" width="18"></iconify-icon>
+              Kirim Pesanan
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="border-t border-dark-800/30 pt-12 pb-6">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 pb-8 border-b border-dark-800/20">
+        <a href="#hero" class="flex items-center gap-3">
+          <div class="w-9 h-9 border border-gold-600/30 rounded-lg flex items-center justify-center bg-dark-900/80">
+            <iconify-icon icon="lucide:crown" class="text-gold-500" width="18"></iconify-icon>
+          </div>
+          <div>
+            <span class="font-serif font-bold text-lg tracking-tight text-white">Royale</span>
+            <span class="block text-[9px] text-gold-600/40 tracking-[0.25em] uppercase">Geprek House</span>
+          </div>
+        </a>
+        <div class="flex items-center gap-8">
+          <a href="#about" class="text-xs text-dark-500 hover:text-gold-400 transition-colors duration-200 uppercase tracking-wider">Tentang</a>
+          <a href="#menu" class="text-xs text-dark-500 hover:text-gold-400 transition-colors duration-200 uppercase tracking-wider">Menu</a>
+          <a href="#testimonials" class="text-xs text-dark-500 hover:text-gold-400 transition-colors duration-200 uppercase tracking-wider">Testimoni</a>
+          <a href="#contact" class="text-xs text-dark-500 hover:text-gold-400 transition-colors duration-200 uppercase tracking-wider">Kontak</a>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-dark-600">&copy; 2025 Geprek Royale. All rights reserved.</p>
+        <p class="text-xs text-dark-600">Dibuat dengan <iconify-icon icon="lucide:heart" class="text-gold-600/40 align-middle" width="12"></iconify-icon> dan dedikasi</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST ==================== -->
+  <div id="toast" class="toast fixed bottom-6 right-6 z-50 bg-dark-900 border border-gold-700/30 shadow-2xl rounded-2xl p-4 flex items-center gap-3 max-w-sm">
+    <div id="toastIcon" class="w-10 h-10 bg-gold-600/10 rounded-xl flex items-center justify-center shrink-0">
+      <iconify-icon icon="lucide:check-circle" class="text-gold-500" width="22"></iconify-icon>
+    </div>
+    <div>
+      <div id="toastTitle" class="text-sm font-semibold text-white">Berhasil!</div>
+      <div id="toastMessage" class="text-xs text-dark-400">Pesanan sedang diproses.</div>
+    </div>
+    <button onclick="hideToast()" class="ml-2 text-dark-600 hover:text-dark-300 transition-colors">
+      <iconify-icon icon="lucide:x" width="16"></iconify-icon>
+    </button>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    function updateNavbar() {
+      const scrollY = window.scrollY;
+      if (scrollY > 50) {
+        navbar.style.background = 'rgba(2, 6, 23, 0.92)';
+        navbar.style.backdropFilter = 'blur(16px)';
+        navbar.style.borderBottom = '1px solid rgba(51, 65, 85, 0.2)';
+        navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+      } else {
+        navbar.style.background = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.borderBottom = '1px solid transparent';
+        navbar.style.boxShadow = 'none';
+      }
+    }
+
+    function updateActiveNav() {
+      const scrollY = window.scrollY + 120;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === sectionId) link.classList.add('active');
+          });
+          mobileNavLinks.forEach(link => {
+            link.classList.remove('active', 'bg-gold-600/10', 'text-gold-400');
+            if (link.getAttribute('data-section') === sectionId) link.classList.add('active', 'bg-gold-600/10', 'text-gold-400');
+          });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', () => { updateNavbar(); updateActiveNav(); });
+    updateNavbar(); updateActiveNav();
+
+    // Mobile Menu
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburgerBtn.addEventListener('click', () => { hamburgerBtn.classList.toggle('active'); mobileMenu.classList.toggle('open'); });
+    mobileNavLinks.forEach(link => { link.addEventListener('click', () => { hamburgerBtn.classList.remove('active'); mobileMenu.classList.remove('open'); }); });
+
+    // Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const menuCards = document.querySelectorAll('.menu-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => { b.classList.remove('bg-gold-600', 'text-dark-950', 'active'); b.classList.add('bg-dark-800/60', 'text-dark-400'); });
+        btn.classList.add('bg-gold-600', 'text-dark-950', 'active'); btn.classList.remove('bg-dark-800/60', 'text-dark-400');
+        const filter = btn.getAttribute('data-filter');
+        menuCards.forEach(card => {
+          const cat = card.getAttribute('data-category');
+          if (filter === 'all' || cat === filter) {
+            card.style.display = '';
+            card.style.opacity = '0'; card.style.transform = 'translateY(20px)';
+            requestAnimationFrame(() => { card.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; card.style.opacity = '1'; card.style.transform = 'translateY(0)'; });
+          } else {
+            card.style.opacity = '0'; card.style.transform = 'translateY(20px)';
+            setTimeout(() => { card.style.display = 'none'; }, 500);
+          }
+        });
+      });
+    });
+
+    // Scroll Reveal
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('section-visible'); }); }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.section-hidden').forEach(s => observer.observe(s));
+
+    // Quantity
+    let qty = 1;
+    const qtyDisplay = document.getElementById('qtyDisplay');
+    document.getElementById('minusBtn').addEventListener('click', () => { if (qty > 1) { qty--; qtyDisplay.textContent = qty; } });
+    document.getElementById('plusBtn').addEventListener('click', () => { if (qty < 20) { qty++; qtyDisplay.textContent = qty; } });
+
+    // Contact Form
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('nameInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (!name || !phone) { showToast('Mohon Lengkapi', 'Isi nama dan nomor WhatsApp Anda.', 'error'); return; }
+      const btn = e.target.querySelector('button[type="submit"]');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<iconify-icon icon="lucide:loader-2" width="18" class="animate-spin"></iconify-icon> Mengirim...';
+      btn.disabled = true;
+      setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; e.target.reset(); qty = 1; qtyDisplay.textContent = 1; showToast('Pesanan Terkirim', 'Kami akan menghubungi Anda via WhatsApp segera!', 'success'); }, 1500);
+    });
+
+    // Toast
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMessage').textContent = message;
+      const icon = document.getElementById('toastIcon');
+      if (type === 'error') { icon.innerHTML = '<iconify-icon icon="lucide:alert-circle" class="text-red-400" width="22"></iconify-icon>'; icon.className = 'w-10 h-10 bg-red-500/10 rounded-xl flex items-center justify-center shrink-0'; }
+      else { icon.innerHTML = '<iconify-icon icon="lucide:check-circle" class="text-gold-500" width="22"></iconify-icon>'; icon.className = 'w-10 h-10 bg-gold-600/10 rounded-xl flex items-center justify-center shrink-0'; }
+      toast.classList.add('show'); setTimeout(() => hideToast(), 4000);
+    }
+    function hideToast() { document.getElementById('toast').classList.remove('show'); }
+  </script>
+</body>
+</html>
