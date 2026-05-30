@@ -7,6 +7,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -54,7 +57,7 @@
       transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
       opacity: 0;
     }
-    .mobile-menu.open { max-height: 400px; opacity: 1; }
+    .mobile-menu.open { max-height: 500px; opacity: 1; }
 
     .hamburger span { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
@@ -100,6 +103,31 @@
       width: 2px;
       background: linear-gradient(to bottom, #3b82f6, #dbeafe);
     }
+
+    /* Leaflet custom */
+    #map { border-radius: 16px; }
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+      padding: 0 !important;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+      min-width: 200px;
+    }
+    .leaflet-popup-tip {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    }
+    .custom-marker {
+      background: #2563eb;
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+    }
+    .leaflet-control-zoom a {
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+    }
   </style>
 </head>
 <body class="font-sans bg-white text-slate-900 antialiased">
@@ -114,28 +142,29 @@
         <span class="font-semibold text-lg tracking-tight nav-logo-text">Portfolio</span>
       </a>
 
-      <div class="hidden md:flex items-center gap-1">
-        <a href="#hero" class="nav-link active px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="hero">Beranda</a>
-        <a href="#about" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="about">Tentang</a>
-        <a href="#skills" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="skills">Keahlian</a>
-        <a href="#activities" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="activities">Kegiatan</a>
-        <a href="#gallery" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="gallery">Galeri</a>
-        <a href="#contact" class="nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="contact">Kontak</a>
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="#hero" class="nav-link active px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="hero">Beranda</a>
+        <a href="#about" class="nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="about">Tentang</a>
+        <a href="#skills" class="nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="skills">Keahlian</a>
+        <a href="#activities" class="nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="activities">Kegiatan</a>
+        <a href="#gallery" class="nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="gallery">Galeri</a>
+        <a href="#location" class="nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="location">Lokasi</a>
+        <a href="#contact" class="nav-link px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150 nav-text-color hover:text-brand-600" data-section="contact">Kontak</a>
       </div>
 
-      <a href="#contact" class="hidden md:inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40">
+      <a href="#contact" class="hidden lg:inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/40">
         <iconify-icon icon="lucide:mail" width="16"></iconify-icon>
         Hubungi Saya
       </a>
 
-      <button id="hamburgerBtn" class="hamburger md:hidden flex flex-col gap-1.5 p-2 -mr-2" aria-label="Menu">
+      <button id="hamburgerBtn" class="hamburger lg:hidden flex flex-col gap-1.5 p-2 -mr-2" aria-label="Menu">
         <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
         <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
         <span class="block w-6 h-0.5 bg-current hamburger-line-color rounded-full origin-center"></span>
       </button>
     </div>
 
-    <div id="mobileMenu" class="mobile-menu md:hidden">
+    <div id="mobileMenu" class="mobile-menu lg:hidden">
       <div class="px-6 pb-4 pt-2 flex flex-col gap-1 border-t border-slate-200/50 mobile-menu-bg">
         <a href="#hero" class="mobile-nav-link active px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="hero">
           <iconify-icon icon="lucide:home" width="16" class="mr-2 align-middle"></iconify-icon>Beranda
@@ -151,6 +180,9 @@
         </a>
         <a href="#gallery" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="gallery">
           <iconify-icon icon="lucide:image" width="16" class="mr-2 align-middle"></iconify-icon>Galeri
+        </a>
+        <a href="#location" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="location">
+          <iconify-icon icon="lucide:map-pin" width="16" class="mr-2 align-middle"></iconify-icon>Lokasi
         </a>
         <a href="#contact" class="mobile-nav-link px-4 py-3 text-sm font-medium rounded-lg transition-all duration-150" data-section="contact">
           <iconify-icon icon="lucide:mail" width="16" class="mr-2 align-middle"></iconify-icon>Kontak
@@ -192,9 +224,9 @@
           Kenali Saya
           <iconify-icon icon="lucide:arrow-down" width="18"></iconify-icon>
         </a>
-        <a href="#activities" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-150">
-          Lihat Kegiatan
-          <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
+        <a href="#location" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-150">
+          <iconify-icon icon="lucide:map-pin" width="18"></iconify-icon>
+          Lihat Lokasi
         </a>
       </div>
 
@@ -544,6 +576,100 @@
     </div>
   </section>
 
+  <!-- ==================== LOCATION ==================== -->
+  <section id="location" class="py-24 bg-white section-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-600 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider mb-4">
+          <iconify-icon icon="lucide:map-pin" width="14"></iconify-icon>
+          Lokasi
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">Lokasi Saya</h2>
+        <p class="text-slate-600 leading-relaxed">Ini adalah lokasi sekolah dan rumah saya. Klik marker pada peta untuk melihat detail lokasi.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Map -->
+        <div class="lg:col-span-2">
+          <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-xl">
+            <div id="map" class="w-full" style="height: 500px;"></div>
+          </div>
+          <p class="text-xs text-slate-400 mt-3 text-center flex items-center justify-center gap-1">
+            <iconify-icon icon="lucide:info" width="12"></iconify-icon>
+            Anda bisa zoom, geser, dan klik marker untuk melihat detail lokasi
+          </p>
+        </div>
+
+        <!-- Location Info Cards -->
+        <div class="space-y-4">
+          <!-- Sekolah -->
+          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-brand-200 hover:shadow-lg transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-brand-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:school" class="text-brand-600" width="20"></iconify-icon>
+              </div>
+              <div>
+                <h4 class="font-semibold text-slate-900">Sekolah</h4>
+                <span class="text-xs text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md font-medium">Utama</span>
+              </div>
+            </div>
+            <p class="text-sm text-slate-600 mb-3">SRMA 24 Kediri</p>
+            <p class="text-xs text-slate-400 mb-4">Gang 2 Desa Bulusari, Kec. Tarokan, Kab. Kediri, Jawa Timur</p>
+            <button onclick="flyToLocation(-7.738488141306527, 111.94952109697194, 'sekolah')" class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all duration-150">
+              <iconify-icon icon="lucide:locate" width="16"></iconify-icon>
+              Lihat di Peta
+            </button>
+          </div>
+
+          <!-- Rumah -->
+          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-green-200 hover:shadow-lg transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
+                <iconify-icon icon="lucide:home" class="text-green-600" width="20"></iconify-icon>
+              </div>
+              <div>
+                <h4 class="font-semibold text-slate-900">Rumah</h4>
+                <span class="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-md font-medium">Puncu</span>
+              </div>
+            </div>
+            <p class="text-sm text-slate-600 mb-3">Desa Puncu</p>
+            <p class="text-xs text-slate-400 mb-4">Kec. Puncu, Kab. Kediri, Jawa Timur</p>
+            <button onclick="flyToLocation(-7.809498472678488, 112.24770976023814, 'rumah')" class="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all duration-150">
+              <iconify-icon icon="lucide:locate" width="16"></iconify-icon>
+              Lihat di Peta
+            </button>
+          </div>
+
+          <!-- Info -->
+          <div class="bg-gradient-to-br from-brand-600 to-brand-700 rounded-2xl p-6 text-white">
+            <div class="flex items-center gap-3 mb-3">
+              <iconify-icon icon="lucide:info" width="20" class="text-brand-200"></iconify-icon>
+              <h4 class="font-semibold">Tips Navigasi</h4>
+            </div>
+            <ul class="space-y-2 text-sm text-brand-100">
+              <li class="flex items-start gap-2">
+                <iconify-icon icon="lucide:mouse-pointer-click" width="14" class="mt-0.5 shrink-0"></iconify-icon>
+                Klik marker untuk info detail
+              </li>
+              <li class="flex items-start gap-2">
+                <iconify-icon icon="lucide:zoom-in" width="14" class="mt-0.5 shrink-0"></iconify-icon>
+                Scroll untuk zoom in/out
+              </li>
+              <li class="flex items-start gap-2">
+                <iconify-icon icon="lucide:move" width="14" class="mt-0.5 shrink-0"></iconify-icon>
+                Klik & geser untuk menjelajah
+              </li>
+              <li class="flex items-start gap-2">
+                <iconify-icon icon="lucide:navigation" width="14" class="mt-0.5 shrink-0"></iconify-icon>
+                Tombol "Lihat di Peta" untuk fokus ke lokasi
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ==================== CTA ==================== -->
   <section class="py-20 bg-brand-600 relative overflow-hidden section-hidden">
     <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full opacity-10 -translate-x-1/2 -translate-y-1/2"></div>
@@ -551,10 +677,16 @@
     <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
       <h2 class="text-3xl lg:text-4xl font-semibold tracking-tight text-white mb-4">Ingin Terhubung Dengan Saya?</h2>
       <p class="text-lg text-brand-100 max-w-2xl mx-auto mb-8 leading-relaxed">Jangan ragu untuk menghubungi saya untuk diskusi, proyek sekolah, atau sekadar berteman!</p>
-      <a href="#contact" class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-brand-600 font-semibold px-8 py-3.5 rounded-xl transition-all duration-150 shadow-lg">
-        Kirim Pesan
-        <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
-      </a>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#contact" class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-brand-600 font-semibold px-8 py-3.5 rounded-xl transition-all duration-150 shadow-lg">
+          Kirim Pesan
+          <iconify-icon icon="lucide:arrow-right" width="18"></iconify-icon>
+        </a>
+        <a href="#location" class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-150">
+          <iconify-icon icon="lucide:map-pin" width="18"></iconify-icon>
+          Lihat Lokasi
+        </a>
+      </div>
     </div>
   </section>
 
@@ -619,10 +751,13 @@
             <a href="mailto:aleoktavino9@gmail.com" class="w-10 h-10 bg-blue-100 hover:bg-blue-500 rounded-xl flex items-center justify-center text-blue-600 hover:text-white transition-all duration-200">
               <iconify-icon icon="lucide:mail" width="18"></iconify-icon>
             </a>
+            <a href="#location" class="w-10 h-10 bg-brand-100 hover:bg-brand-500 rounded-xl flex items-center justify-center text-brand-600 hover:text-white transition-all duration-200">
+              <iconify-icon icon="lucide:map-pin" width="18"></iconify-icon>
+            </a>
           </div>
         </div>
 
-        <!-- ✅ FORM → WHATSAPP -->
+        <!-- FORM → WHATSAPP -->
         <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
@@ -681,11 +816,12 @@
           </div>
           <span class="font-semibold text-lg tracking-tight text-white">Portfolio Ale</span>
         </a>
-        <div class="flex items-center gap-6">
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           <a href="#about" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Tentang</a>
           <a href="#skills" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Keahlian</a>
           <a href="#activities" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Kegiatan</a>
           <a href="#gallery" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Galeri</a>
+          <a href="#location" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Lokasi</a>
           <a href="#contact" class="text-sm text-slate-400 hover:text-brand-400 transition-colors duration-150">Kontak</a>
         </div>
       </div>
@@ -712,6 +848,142 @@
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
+    // =============================
+    // LEAFLET MAP — KOORDINAT SUDAH DIPASANG
+    // =============================
+
+    const LOCATIONS = {
+      sekolah: {
+        lat: -7.738488141306527,
+        lng: 111.94952109697194,
+        title: 'SRMA 24 Kediri',
+        desc: 'Gang 2 Desa Bulusari, Kec. Tarokan, Kab. Kediri',
+        icon: '🏫',
+        color: '#2563eb'
+      },
+      rumah: {
+        lat: -7.809498472678488,
+        lng: 112.24770976023814,
+        title: 'Rumah Ale',
+        desc: 'Desa Puncu, Kec. Puncu, Kab. Kediri',
+        icon: '🏠',
+        color: '#16a34a'
+      }
+    };
+
+    // Pusat peta awal (rata-rata dari semua lokasi)
+    const mapCenterLat = (LOCATIONS.sekolah.lat + LOCATIONS.rumah.lat) / 2;
+    const mapCenterLng = (LOCATIONS.sekolah.lng + LOCATIONS.rumah.lng) / 2;
+
+    // Inisialisasi peta
+    const map = L.map('map', {
+      scrollWheelZoom: true,
+      zoomControl: true
+    }).setView([mapCenterLat, mapCenterLng], 11);
+
+    // Tile layer (peta dasar) - OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Fungsi buat custom marker icon
+    function createCustomIcon(color) {
+      return L.divIcon({
+        className: 'custom-marker-wrapper',
+        html: `
+          <div style="position:relative;width:40px;height:52px;">
+            <div style="
+              width:40px;height:40px;
+              background:${color};
+              border-radius:50% 50% 50% 4px;
+              transform:rotate(-45deg);
+              border:3px solid white;
+              box-shadow:0 4px 12px ${color}66;
+              display:flex;align-items:center;justify-content:center;
+            ">
+              <div style="transform:rotate(45deg);width:10px;height:10px;background:white;border-radius:50%;"></div>
+            </div>
+          </div>
+        `,
+        iconSize: [40, 52],
+        iconAnchor: [20, 52],
+        popupAnchor: [0, -55]
+      });
+    }
+
+    // Tambahkan semua marker
+    const markers = {};
+
+    Object.entries(LOCATIONS).forEach(([key, loc]) => {
+      const marker = L.marker([loc.lat, loc.lng], {
+        icon: createCustomIcon(loc.color)
+      }).addTo(map);
+
+      // Popup kustom
+      const popupContent = `
+        <div style="padding:16px;min-width:220px;font-family:Inter,sans-serif;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="font-size:24px;">${loc.icon}</span>
+            <div>
+              <div style="font-weight:700;font-size:15px;color:#0f172a;">${loc.title}</div>
+              <span style="
+                display:inline-block;
+                font-size:10px;
+                font-weight:600;
+                color:${loc.color};
+                background:${loc.color}15;
+                padding:2px 8px;
+                border-radius:6px;
+                text-transform:uppercase;
+                letter-spacing:0.05em;
+              ">${key === 'sekolah' ? 'Sekolah' : 'Rumah'}</span>
+            </div>
+          </div>
+          <p style="font-size:13px;color:#64748b;margin:0 0 12px 0;line-height:1.5;">${loc.desc}</p>
+          <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8;margin-bottom:12px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            ${loc.lat.toFixed(6)}, ${loc.lng.toFixed(6)}
+          </div>
+          <a href="https://www.google.com/maps?q=${loc.lat},${loc.lng}" target="_blank" style="
+            display:flex;align-items:center;justify-content:center;gap:6px;
+            background:${loc.color};color:white;text-decoration:none;
+            font-size:12px;font-weight:600;padding:8px 12px;border-radius:10px;
+            transition:opacity 0.15s;
+          " onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Buka di Google Maps
+          </a>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent, {
+        maxWidth: 300,
+        closeButton: true,
+        className: 'custom-popup'
+      });
+
+      markers[key] = marker;
+    });
+
+    // Fungsi fly ke lokasi tertentu
+    function flyToLocation(lat, lng, key) {
+      map.flyTo([lat, lng], 15, { duration: 1.5 });
+      setTimeout(() => {
+        if (markers[key]) markers[key].openPopup();
+      }, 1600);
+    }
+
+    // Fix map size saat section muncul
+    const mapObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => { map.invalidateSize(); }, 300);
+        }
+      });
+    }, { threshold: 0.1 });
+    mapObserver.observe(document.getElementById('location'));
+
     // =============================
     // NAVIGATION
     // =============================
@@ -865,34 +1137,27 @@
       const subject = document.getElementById('subjectInput').value;
       const message = document.getElementById('messageInput').value.trim();
 
-      // Validasi wajib
       if (!name || !message) {
         showToast('Gagal!', 'Nama dan Pesan wajib diisi.', 'error');
         return;
       }
 
-      // Tombol loading
       const submitBtn = e.target.querySelector('button[type="submit"]');
       const originalHTML = submitBtn.innerHTML;
       submitBtn.innerHTML = '<iconify-icon icon="lucide:loader-2" width="18" class="animate-spin"></iconify-icon> Membuka WhatsApp...';
       submitBtn.disabled = true;
 
-      // Susun teks pesan WhatsApp
       let waText = `Halo Ale! Saya ingin menghubungi kamu.\n\n`;
       waText += `👤 Nama: ${name}\n`;
       if (school)  waText += `🏫 Kelas/Sekolah: ${school}\n`;
       if (subject) waText += `📋 Subjek: ${subject}\n`;
       waText += `💬 Pesan:\n${message}`;
 
-      // Nomor WhatsApp (tanpa + dan spasi)
       const waNumber = '6285852052961';
-
-      // Buka WhatsApp
       const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
 
       setTimeout(() => {
         window.open(waURL, '_blank');
-
         submitBtn.innerHTML = originalHTML;
         submitBtn.disabled = false;
         e.target.reset();
